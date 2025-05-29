@@ -2,7 +2,7 @@
 Program ClinicaMP;
 
 Type 
-    ptr =   ^nodo;
+    ptrnodo =   ^nodo;
     nodo =   Record
         DNI:   integer;
         Nombre:   string[10];

@@ -104,19 +104,32 @@ Begin
     until (apellido = 'ZZZ');
 End;
 
-procedure DescomponerDNI (DNI: integer; var ConjuntoDigitos: conj);
+procedure DescomponerNros(Num: integer; var ConjuntoDigitos: conj);
 
 var
     digito: integer;
  
 begin
     ConjuntoDigitos := [];
-    while (DNI <> 0) do
+    while (Integer <> 0) do
         begin
-            digito := DNI mod 10;
+            digito := Num mod 10;
             ConjuntoDigitos := ConjuntoDigitos + [digito];
-            DNI := DNI div 10;
+            Num := Num div 10;
         end;
+end;
+
+function DNIenNroAfiliado(DNI: integer; Afiliado: integer): boolean;
+
+var
+    conjuntoDNI: conj;
+    conjuntoAfiliado: conj;
+
+begin
+    DescomponerNros(DNI, conjuntoDNI);
+    DescomponerNros(Afiliado, conjuntoAfiliado);
+
+    DNIenNroAfiliado := (A * B = []);
 end;
 
 procedure RecorrerEstructura(var VectorCons: vConsultorio);

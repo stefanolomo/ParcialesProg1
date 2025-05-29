@@ -134,6 +134,44 @@ begin
     DNIenNroAfiliado := (conjuntoDNI <= conjuntoAfiliado)
 end;
 
+procedure EliminarPacienteNroAfiliado(Afiliado: Integer; var Lista: prtnodo);
+
+var
+    ant, act: ptrnodo;
+
+begin
+    // El actual es la cabeza de lista, y el anterior es nil
+    act := Lista;
+    ant := nil;
+    
+    // Recorre la lista mientras haya nodos y el no hayamos encontrado al Afiliado que buscamos
+    while (act <> nil) and (act^.NroAf <> Afiliado) do
+        begin
+            ant := act;
+            act := act^.sig;
+        end;
+    //Cuando salimos, o no hay mas nodos o encontramos al que buscamos
+
+    // Si act es un nodo valido, entonces lo eliminamos
+    if (act <> nil) then
+        begin
+            // Si es el primer nodo (anterior es nil), cambiamos la lista a el siguiente nodo
+            if (ant = nil) then
+                begin
+                    Lista := act^.sig;
+                    // Eliminamos act ya que no forma parte de la lista
+                    dispose(act);
+                end;
+            // De otra manera, es un nodo adentro de la lista entonces tenemos que enganchar el anterior con el siguiente
+            else
+                begin
+                    ant^.sig := act^.sig;
+                    // Eliminamos act ya que no forma parte de la lista
+                    dispose(act);
+                end;
+        end;
+end;
+
 procedure RecorrerEstructura(var VectorCons: vConsultorio);
 begin
     

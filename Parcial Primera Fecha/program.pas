@@ -162,7 +162,7 @@ begin
                     Lista := act^.sig;
                     // Eliminamos act ya que no forma parte de la lista
                     dispose(act);
-                end;
+                end
             // De otra manera, es un nodo adentro de la lista entonces tenemos que enganchar el anterior con el siguiente
             else
                 begin
@@ -211,7 +211,7 @@ begin
 
                             // Elimina el nodo
                             EliminarPacienteNroAfiliado(aux^.NroAf, VectorCons[i]);
-                        end;
+                        end
                     else
                         begin
                             // Suma al total de los honorarios del consultorio los honorarios del paciente

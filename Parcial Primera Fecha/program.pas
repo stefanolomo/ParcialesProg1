@@ -126,10 +126,12 @@ var
     conjuntoAfiliado: conj;
 
 begin
+    // Descompone los numeros del dni y del afiliado
     DescomponerNros(DNI, conjuntoDNI);
     DescomponerNros(Afiliado, conjuntoAfiliado);
 
-    DNIenNroAfiliado := (A * B = []);
+    // Si los digitos del DNI estan en el Nro de afiliado, es verdadero
+    DNIenNroAfiliado := (conjuntoDNI <= conjuntoAfiliado)
 end;
 
 procedure RecorrerEstructura(var VectorCons: vConsultorio);

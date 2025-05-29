@@ -12,6 +12,7 @@ Type
         sig:   prtnodo;
     End;
     vConsultorio =   array[1..12] Of prtnodo;
+    conj = set of 0..9;
 
 Procedure InicializarListas(Var VectListas: vConsultorio);
 
@@ -33,7 +34,7 @@ Begin
 
 
     // Recorre la lista mientras no sea el ultimo y el apellido sea menor al que queremos insertar
-    While (act <> Nil) And (act^.Apellido < p^Apellido) Do
+    While (act <> Nil) And (act^.Apellido < p^.Apellido) Do
         Begin
             ant := act;
             act := act^.sig;
@@ -44,7 +45,7 @@ Begin
         Begin
             p^.sig := Nil;
             L := p;
-        End;
+        End
 
     // De otra manera, la lista tiene cosas: ant es el nodo anterior a la posicion a insertar y act es el nodo posterior
     Else
@@ -59,10 +60,15 @@ End;
 Procedure leerdatos(Var p: prtnodo);
 
 Begin
+    writeln('Ingresar el DNI del paciente');
     readln(p^.DNI);
+    writeln('Ingresar el nombre del paciente');
     readln(p^.Nombre);
+    writeln('Ingresar el apellido del paciente');
     readln(p^.Apellido);
+    writeln('Ingresar el NRO de afiliado del paciente');
     readln(p^.NroAf);
+    writeln('Ingresar la obra social del paciente');
     readln(p^.ObraSoc);
 End;
 
@@ -74,21 +80,79 @@ Var
     apellido: string[10];
 
 Begin
+    // Cadena auxiliar
     apellido := '';
     repeat
+        // Inicializa un nodo y lee los datos del paciente
         new(p);
         leerdatos(p);
+
+        // La variable auxiliar es el apellido
         apellido := p^.Apellido;
+        
+        // Si el apellido es valido...
         if (apellido <> 'ZZZ') then
             begin
+                // Le preguntamos el consultorio y lo insertamos ordenado en la lista correspondiente
+                writeln('Ingresar el consultorio del paciente: ');
                 read(consultorio);
                 InsertarOrdenado(VectorCons[consultorio], p);    
             end
         else
-            dispose(p)
+            // De otra manera, el apellido es ZZZ entonces liberamos la memoria ya que se terminó de ingresar pacientes
+            dispose(p);
     until (apellido = 'ZZZ');
 End;
 
-Begin
+procedure DescomponerDNI (DNI: integer; var ConjuntoDigitos: conj);
 
+var
+    digito: integer;
+ 
+begin
+    ConjuntoDigitos := [];
+    while (DNI <> 0) do
+        begin
+            digito := DNI mod 10;
+            ConjuntoDigitos := ConjuntoDigitos + [digito];
+            DNI := DNI div 10;
+        end;
+end;
+
+procedure RecorrerEstructura(var VectorCons: vConsultorio);
+begin
+    
+end;
+
+procedure ImprimirPacientes(VectorCons: vConsultorio);
+var
+    i: integer;
+    p: prtnodo;
+begin
+    for i := 1 to 12 do
+    begin
+        writeln('Consultorio ', i, ':');
+        p := VectorCons[i];
+        if p = nil then
+            writeln('  (Sin pacientes)')
+        else
+        begin
+            while p <> nil do
+            begin
+                writeln('  Apellido: ', p^.Apellido, ', Nombre: ', p^.Nombre, ', DNI: ', p^.DNI);
+                // Agrega aquí otros campos si los tienes, por ejemplo: p^.Edad, etc.
+                p := p^.sig;
+            end;
+        end;
+        writeln;
+    end;
+end;
+
+var
+    ArregloListas: vConsultorio;
+
+Begin
+    InicializarListas(ArregloListas);
+    IngresoPacientes(ArregloListas);
+    ImprimirPacientes(ArregloListas);
 End.

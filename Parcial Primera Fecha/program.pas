@@ -41,10 +41,10 @@ Begin
             act := act^.sig;
         End;
 
-    // Si la lista esta vacia, lo inserta normalmente
+    // Si tenemos que insertar en el primero de la lista (el anterior es nil) hacemos el enganche con el resto de la lista
     If (ant = Nil) Then
         Begin
-            p^.sig := Nil;
+            p^.sig := L;
             L := p;
         End
 
@@ -96,7 +96,7 @@ Begin
             begin
                 // Le preguntamos el consultorio y lo insertamos ordenado en la lista correspondiente
                 writeln('Ingresar el consultorio del paciente: ');
-                read(consultorio);
+                readln(consultorio);
                 InsertarOrdenado(VectorCons[consultorio], p);    
             end
         else
@@ -112,7 +112,7 @@ var
  
 begin
     ConjuntoDigitos := [];
-    while (Integer <> 0) do
+    while (Num <> 0) do
         begin
             digito := Num mod 10;
             ConjuntoDigitos := ConjuntoDigitos + [digito];
@@ -192,8 +192,9 @@ var
     Lista, aux: ptrnodo;
 
 begin
-    for i to 12 do
+    for i := 1 to 12 do
         begin
+            VectorHonorarios[i] := 0;
             Lista := VectorCons[i];
             while (Lista <> nil) do
                 begin
@@ -209,14 +210,16 @@ begin
                             Lista := Lista^.sig;
 
                             // Elimina el nodo
-                            EliminarPacienteNroAfiliado(aux^.NroAf, VectorCons);
+                            EliminarPacienteNroAfiliado(aux^.NroAf, VectorCons[i]);
                         end;
                     else
-                        // Suma al total de los honorarios del consultorio los honorarios del paciente
-                        VectorHonorarios[i] := VectorHonorarios[i] + CalcularHonorarios(i, Lista^.ObraSoc);
+                        begin
+                            // Suma al total de los honorarios del consultorio los honorarios del paciente
+                            VectorHonorarios[i] := VectorHonorarios[i] + CalcularHonorarios(i, Lista^.ObraSoc);
 
-                        // Continua al siguiente nodo
-                        Lista := Lista^.sig;
+                            // Continua al siguiente nodo
+                            Lista := Lista^.sig;
+                        end;
                     
                 end;
         end;

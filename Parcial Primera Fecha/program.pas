@@ -172,6 +172,18 @@ begin
         end;
 end;
 
+// En el parcial se dispone de esta funcion
+function CalcularHonorarios(consultorio: integer; ObraSoc: integer):integer;
+begin
+    case ObraSoc of
+        1..7: CalcularHonorarios := 100 * (consultorio div 4);
+        8..11: CalcularHonorarios := 70 * (consultorio div 4);
+        12: CalcularHonorarios := 350 * (consultorio div 4)
+    else
+        CalcularHonorarios := 500 * consultorio
+    end;
+end;
+
 procedure RecorrerEstructura(var VectorCons: vConsultorio);
 begin
     

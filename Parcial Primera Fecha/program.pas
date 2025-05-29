@@ -13,6 +13,7 @@ Type
     End;
     vConsultorio =   array[1..12] Of ptrnodo;
     conj = set of 0..9;
+    vHonorarios = array[1..12] Of integer;
 
 Procedure InicializarListas(Var VectListas: vConsultorio);
 
@@ -184,16 +185,40 @@ begin
     end;
 end;
 
-procedure RecorrerEstructura(var VectorCons: vConsultorio);
+procedure RecorrerEstructura(var VectorCons: vConsultorio; var VectorHonorarios: vHonorarios);
 
 var
     i: integer;
-    Lista: ptrnodo;
+    Lista, aux: ptrnodo;
 
 begin
     for i to 12 do
         begin
-            
+            Lista := VectorCons[i];
+            while (Lista <> nil) do
+                begin
+                    if (DNIenNroAfiliado(Lista^.DNI, Lista^.NroAf)) then
+                        begin
+                            // Imprime el nombre y apellido
+                            writeln(Lista^.Nombre);
+                            writeln(Lista^.Apellido);
+
+                            aux := Lista;
+
+                            // Continua al siguiente nodo
+                            Lista := Lista^.sig;
+
+                            // Elimina el nodo
+                            EliminarPacienteNroAfiliado(aux^.NroAf, VectorCons);
+                        end;
+                    else
+                        // Suma al total de los honorarios del consultorio los honorarios del paciente
+                        VectorHonorarios[i] := VectorHonorarios[i] + CalcularHonorarios(i, Lista^.ObraSoc);
+
+                        // Continua al siguiente nodo
+                        Lista := Lista^.sig;
+                    
+                end;
         end;
 end;
 

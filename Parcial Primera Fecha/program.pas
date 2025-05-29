@@ -2,16 +2,16 @@
 Program ClinicaMP;
 
 Type 
-    prtnodo =   ^nodo;
+    ptr =   ^nodo;
     nodo =   Record
         DNI:   integer;
         Nombre:   string[10];
         Apellido:   string[10];
         NroAf:   integer;
         ObraSoc:   1..20;
-        sig:   prtnodo;
+        sig:   ptrnodo;
     End;
-    vConsultorio =   array[1..12] Of prtnodo;
+    vConsultorio =   array[1..12] Of ptrnodo;
     conj = set of 0..9;
 
 Procedure InicializarListas(Var VectListas: vConsultorio);
@@ -24,10 +24,10 @@ Begin
         VectListas[i] := Nil;
 End;
 
-Procedure InsertarOrdenado(Var L: prtnodo; p: prtnodo);
+Procedure InsertarOrdenado(Var L: ptrnodo; p: ptrnodo);
 
 Var 
-    ant, act:   prtnodo;
+    ant, act:   ptrnodo;
 Begin
     act := L;
     ant := Nil;
@@ -57,7 +57,7 @@ Begin
         End;
 End;
 
-Procedure leerdatos(Var p: prtnodo);
+Procedure leerdatos(Var p: ptrnodo);
 
 Begin
     writeln('Ingresar el DNI del paciente');
@@ -75,7 +75,7 @@ End;
 Procedure IngresoPacientes (Var VectorCons: vConsultorio);
 
 Var 
-    p:   prtnodo;
+    p:   ptrnodo;
     consultorio:   1..12;
     apellido: string[10];
 
@@ -134,7 +134,7 @@ begin
     DNIenNroAfiliado := (conjuntoDNI <= conjuntoAfiliado)
 end;
 
-procedure EliminarPacienteNroAfiliado(Afiliado: Integer; var Lista: prtnodo);
+procedure EliminarPacienteNroAfiliado(Afiliado: Integer; var Lista: ptrnodo);
 
 var
     ant, act: ptrnodo;
@@ -185,14 +185,22 @@ begin
 end;
 
 procedure RecorrerEstructura(var VectorCons: vConsultorio);
+
+var
+    i: integer;
+    Lista: ptrnodo;
+
 begin
-    
+    for i to 12 do
+        begin
+            
+        end;
 end;
 
 procedure ImprimirPacientes(VectorCons: vConsultorio);
 var
     i: integer;
-    p: prtnodo;
+    p: ptrnodo;
 begin
     for i := 1 to 12 do
     begin

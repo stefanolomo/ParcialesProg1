@@ -177,9 +177,9 @@ end;
 function CalcularHonorarios(consultorio: integer; ObraSoc: integer):integer;
 begin
     case ObraSoc of
-        1..7: CalcularHonorarios := 100 * (consultorio div 4);
-        8..11: CalcularHonorarios := 70 * (consultorio div 4);
-        12: CalcularHonorarios := 350 * (consultorio div 4)
+        1..7: CalcularHonorarios := 100 * (consultorio div 1.2);
+        8..11: CalcularHonorarios := 70 * (consultorio div 1.2);
+        12: CalcularHonorarios := 350 * (consultorio div 1.2)
     else
         CalcularHonorarios := 500 * consultorio
     end;
@@ -251,9 +251,13 @@ end;
 
 var
     ArregloListas: vConsultorio;
+    vectHonorarios: vHonorarios;
+    i: integer;
 
 Begin
     InicializarListas(ArregloListas);
     IngresoPacientes(ArregloListas);
+    RecorrerEstructura(ArregloListas, vectHonorarios);
+    for i := 1 to 12 Do writeln('Los honorarios de la clinica ', i, ' son: ', vectHonorarios[i]);
     ImprimirPacientes(ArregloListas);
 End.

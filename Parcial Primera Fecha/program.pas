@@ -177,9 +177,9 @@ end;
 function CalcularHonorarios(consultorio: integer; ObraSoc: integer):integer;
 begin
     case ObraSoc of
-        1..7: CalcularHonorarios := 100 * (consultorio div 1.2);
-        8..11: CalcularHonorarios := 70 * (consultorio div 1.2);
-        12: CalcularHonorarios := 350 * (consultorio div 1.2)
+        1..7: CalcularHonorarios := 100 * consultorio;
+        8..11: CalcularHonorarios := 70 * consultorio;
+        12: CalcularHonorarios := 350 * consultorio
     else
         CalcularHonorarios := 500 * consultorio
     end;

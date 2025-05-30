@@ -51,7 +51,7 @@ Begin
     // De otra manera, la lista tiene cosas: ant es el nodo anterior a la posicion a insertar y act es el nodo posterior
     Else
         Begin
-            // El siguiente del nodo anterior es le nodo a insertar
+            // El siguiente del nodo anterior es el nodo a insertar
             ant^.sig := p;
             // Y el siguiente al nodo a insertar es el nodo posterior
             p^.sig := act;

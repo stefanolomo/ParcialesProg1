@@ -44,6 +44,56 @@ begin
         end;
 end;
 
+procedure leerdatos(var p: ptrproducto);
+
+begin
+    writeln('Ingresar en codigo del producto (0 para terminar)');
+    readln(p^.codigo);
+    if (p^.codigo <> '0') then
+        begin
+            writeln('Ingresar la descripcion del producto');
+            readln(p^.descripcion);
+            writeln('Ingresar el minimo stock');
+            readln(p^.minStock);
+            writeln('Ingresar el stock anual');
+            readln(p^.anStock);
+            writeln('Ingresar el codigo de rubro (de 1 a 51)');
+            readln(p^.rubro);
+            p^.sig := nil;
+        end;
+end;
+
+procedure IngresarProductos(var Lista: ptrproducto);
+
+var
+    codigoproducto: string[15];
+    p: ptrproducto;
+
+begin
+    codigoproducto := '';
+
+    repeat
+        // Inicializa el nodo
+        new(p);
+        leerdatos(p);
+
+        // La variable nroproducto
+        codigoproducto := p^.codigo;
+
+        if (codigoproducto <> '0') then
+            // Si el nro no es cero, el producto es valido
+            begin
+                InsertarProducto(Lista, p);
+            end
+        else
+            // Si el nro del producto es 0, liberamos espacio porque la carga terminó
+            begin
+                dispose(p);
+            end;
+
+    until (codigoproducto = '0');
+end;
+
 begin
     
-end;
+end.

@@ -61,16 +61,19 @@ End;
 Procedure leerdatos(Var p: ptrnodo);
 
 Begin
-    writeln('Ingresar el DNI del paciente');
-    readln(p^.DNI);
-    writeln('Ingresar el nombre del paciente');
-    readln(p^.Nombre);
     writeln('Ingresar el apellido del paciente');
     readln(p^.Apellido);
-    writeln('Ingresar el NRO de afiliado del paciente');
-    readln(p^.NroAf);
-    writeln('Ingresar la obra social del paciente');
-    readln(p^.ObraSoc);
+    if (p^.Apellido) then
+        begin
+            writeln('Ingresar el nombre del paciente');
+            readln(p^.Nombre);
+            writeln('Ingresar el DNI del paciente');
+            readln(p^.DNI);
+            writeln('Ingresar el NRO de afiliado del paciente');
+            readln(p^.NroAf);
+            writeln('Ingresar la obra social del paciente');
+            readln(p^.ObraSoc);
+        end;
 End;
 
 Procedure IngresoPacientes (Var VectorCons: vConsultorio);

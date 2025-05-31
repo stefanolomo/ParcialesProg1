@@ -26,11 +26,21 @@ var
     ant, act: ptrproducto;
 
 begin
+    // Creamos un nodo nuevo con los mismos datos de p
+    new(nuevo);
+    nuevo^.codigo := p^.codigo;
+    nuevo^.descripcion := p^.descripcion;
+    nuevo^.minStock := p^.minStock;
+    nuevo^.anStock := p^.anStock;
+    nuevo^.rubro := p^.rubro;
+    nuevo^.costo := p^.costo;
+    nuevo^.sig := nil;
+
     act := L;
     ant := nil;
 
     // Recorremos la lista mientras no sea el ultimo
-    while (act <> nil) do
+    while (act <> nil) and (act^.descripcion < nuevo^.descripcion) do
         begin
             ant := act;
             act := act^.sig;
@@ -39,15 +49,15 @@ begin
     // Cuando sale, llegamos al ultimo nodo y ant es el anterior
     if (ant = nil) then // Estamos en el primer nodo
         begin
-            p^.sig := L;
-            L := p;
+            nuevo^.sig := L;
+            L := nuevo;
         end
     else // De otra manera estamos insertando en un nodo de la lista
         begin
             // El siguiente del nodo anterior es el nodo a insertar
-            ant^.sig := p;
+            ant^.sig := nuevo;
             // Y el siguiente al nodo a insertar es el nodo posterior
-            p^.sig := act;
+            nuevo^.sig := act;
         end;
 end;
 

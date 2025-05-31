@@ -128,7 +128,7 @@ begin
     until (codigoproducto = '0');
 end;
 
-procedure InicializarLista(Lista: ptrproducto);
+procedure InicializarLista(var Lista: ptrproducto);
 begin
     Lista := nil;
 end;

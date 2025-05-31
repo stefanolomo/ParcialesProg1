@@ -214,10 +214,11 @@ end;
 
 var
     ListaProductos: ptrproducto;
+    Lista1, Lista2, Lista3: ptrproducto;
 begin
     ListaProductos := nil;
     IngresarProductos(ListaProductos);
-    RecorrerLista(ListaProductos);
+    RecorrerLista(ListaProductos, Lista1, Lista2, Lista3);
 end.
 
 // Codigos de producto válidos:

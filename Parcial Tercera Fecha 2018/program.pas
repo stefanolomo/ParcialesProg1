@@ -217,6 +217,7 @@ var
 begin
     ListaProductos := nil;
     IngresarProductos(ListaProductos);
+    RecorrerLista(ListaProductos);
 end.
 
 // Codigos de producto válidos:

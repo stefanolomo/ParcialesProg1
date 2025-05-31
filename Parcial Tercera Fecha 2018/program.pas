@@ -15,6 +15,7 @@ type
         minStock: integer;
         anStock: integer;
         rubro: 1..51;
+        costo: integer;
         sig: ptrproducto;
     end;
 
@@ -62,6 +63,8 @@ begin
             readln(p^.minStock);
             writeln('Ingresar el stock anual');
             readln(p^.anStock);
+            writeln('Ingresar el costo del producto');
+            readln(p^.costo);
             writeln('Ingresar el codigo de rubro (de 1 a 51)');
             readln(p^.rubro);
             p^.sig := nil;
@@ -88,7 +91,7 @@ begin
             if (car in ALFA_DIGIT) then contNum := contNum + 1;
             if (car in ALFA_MAYUS) then contLet := contLet + 1;
         end;
-        
+
     // El codigo es valido solo si tiene 10 numeros y 5 letras mayusculas
     CumpleCodigo := (contNum = 10) and (contLet = 5);
 end;
@@ -124,6 +127,92 @@ begin
     until (codigoproducto = '0');
 end;
 
+procedure InicializarLista(Lista: ptrproducto);
 begin
+    Lista := nil;
+end;
+
+procedure RecorrerLista(Lista: ptrproducto; var Lista1: ptrproducto; var Lista2: ptrproducto; var Lista3: ptrproducto);
+
+var
+    act: ptrproducto;
+    vMaxProd, vCosto: array[51] of integer; 
+    j, totProd: integer;
+    PromedioProductos, PromedioCosto: real;
+
+begin
+    // Inicializa las listas vacias
+    InicializarLista(Lista1);
+    InicializarLista(Lista2);
+    InicializarLista(Lista3);
+
+    // Inicializa las listas en 0
+    for i := 1 to 51 do
+        begin
+            vMaxProd[i] := 0;
+            vCosto[i] := 0;
+        end;
+
+    act := Lista;
+
+    while (act <> nil) do
+        begin
+            // Logica para punto D
+            if not (CumpleCodigo(act)) then
+                begin
+                    InsertarProducto(Lista 1, act);
+                end;
+            else if (CumpleCodigo(act)) then
+                begin
+                    if (act^.anStock < act^.minStock) then
+                        begin
+                            InsertarProducto(Lista2, act);
+                        end
+                    else
+                        begin
+                            InsertarProducto(Lista3, act);
+                        end;
+                end;
+
+            // Logica para almacenar los productos por rubro
+            j := act^.rubro;
+            vMaxProd[j] := vMaxProd[j] + 1;
+
+            // Logica para informar el nombre acorde al rubro y almacenar totales de cantidad y costo
+            writeln('El producto ', act^.nombre, ' esta en el rubro ', j);
+            vCosto[j] := vCosto[j] + act^.costo;
+            totProd := totProd + 1;
+
+            // Pasamos al siguiente nodo
+            act := act^.sig;
+        end;
+    // Cuando se sale del while, se termino de recorrer la lista
+    // Calculo de promedios:
+    if (totProd > 0) then
+        begin
+            // --> Promedio en rubro
+            PromedioProductos := totProd / 51;
+
+            // --> Costo promedio de rubro
+            PromedioCosto := 0;
+            for i := 1 to 51 do
+                begin
+                    if (vMaxProd[i] > 0) then // Le suma al promedio el costo del rubro i dividido por sus productos
+                        PromedioCosto := PromedioCosto + (vCosto[i] / vMaxProd[i]);
+                end;
+            // Dividimos el promedio del costo entre todos los rubros
+            PromedioCosto := PromedioCosto / 51;
+
+            // Muestra los resultados
+            writeln('Promedio de productos por rubro: ', PromedioProductos:0:2);
+            writeln('Promedio de costos por rubro: ', PromedioCosto:0:2);
+        end;
     
+end;
+
+var
+    ListaProductos: ptrproducto;
+begin
+    ListaProductos := nil;
+    IngresarProductos(ListaProductos);
 end.

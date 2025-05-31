@@ -18,6 +18,7 @@ type
         costo: integer;
         sig: ptrproducto;
     end;
+    arrRubros = array[1..51] of integer;
 
 procedure InsertarProducto(var L: ptrproducto; p: ptrproducto);
 
@@ -136,8 +137,8 @@ procedure RecorrerLista(Lista: ptrproducto; var Lista1: ptrproducto; var Lista2:
 
 var
     act: ptrproducto;
-    vMaxProd, vCosto: array[51] of integer; 
-    j, totProd: integer;
+    vMaxProd, vCosto: arrRubros;
+    j, i, totProd: integer;
     PromedioProductos, PromedioCosto: real;
 
 begin
@@ -145,6 +146,7 @@ begin
     InicializarLista(Lista1);
     InicializarLista(Lista2);
     InicializarLista(Lista3);
+    totProd := 0;
 
     // Inicializa las listas en 0
     for i := 1 to 51 do
@@ -160,8 +162,8 @@ begin
             // Logica para punto D
             if not (CumpleCodigo(act)) then
                 begin
-                    InsertarProducto(Lista 1, act);
-                end;
+                    InsertarProducto(Lista1, act);
+                end
             else if (CumpleCodigo(act)) then
                 begin
                     if (act^.anStock < act^.minStock) then
@@ -179,7 +181,7 @@ begin
             vMaxProd[j] := vMaxProd[j] + 1;
 
             // Logica para informar el nombre acorde al rubro y almacenar totales de cantidad y costo
-            writeln('El producto ', act^.nombre, ' esta en el rubro ', j);
+            writeln('El producto ', act^.descripcion, ' esta en el rubro ', j);
             vCosto[j] := vCosto[j] + act^.costo;
             totProd := totProd + 1;
 

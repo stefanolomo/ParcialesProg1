@@ -2,6 +2,11 @@ program MatCon;
 
 // Una empresa de materiales para la construccion esta interesada en hacer una estadistica de los productos que vende. De cada producto se conoce el codigo de producto formado por 15 caracteres,  descripcion, stock minimo, stock anual, y codigo de rubro al que pertenecen (materiales, sanitarios, pinturas, herrajes, etc.).
 
+const
+    ALFA_MAYUS = ['A'..'Z'];
+    ALFA_MINUS = ['a'..'z'];
+    ALFA_DIGIT = ['0'..'9'];
+
 type
     ptrproducto = ^producto;
     producto = record
@@ -61,6 +66,31 @@ begin
             readln(p^.rubro);
             p^.sig := nil;
         end;
+end;
+
+function CumpleCodigo(p: ptrproducto):boolean;
+
+var
+    car: char;
+    contLet, contNum, i: integer;
+
+begin
+    // Se inicializa en 0 los contadores
+    contLet := 0;
+    contNum := 0;
+
+    for i := 1 to 15 do
+        begin
+            // El caracter a procesar esta en el indice i
+            car := p^.codigo[i];
+
+            // Aumentamos los contadores
+            if (car in ALFA_DIGIT) then contNum := contNum + 1;
+            if (car in ALFA_MAYUS) then contLet := contLet + 1;
+        end;
+        
+    // El codigo es valido solo si tiene 10 numeros y 5 letras mayusculas
+    CumpleCodigo := (contNum = 10) and (contLet = 5);
 end;
 
 procedure IngresarProductos(var Lista: ptrproducto);

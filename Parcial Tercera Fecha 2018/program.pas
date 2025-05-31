@@ -138,6 +138,42 @@ begin
     until (codigoproducto = '0');
 end;
 
+procedure InformarMaxRubros(vMaxProd: arrRubros);
+
+var
+    max1, max2, rubro1, rubro2, i: integer;
+
+begin
+    max1 := -1;
+    max2 := -1;
+    rubro1 := 0;
+    rubro2 := 0;
+
+    for i := 1 to 51 do
+        begin
+            if vMaxProd[i] > max1 then
+                begin
+                    // Traspasar los maximos a la segunda posicion
+                    max2 := max1;
+                    rubro2 := rubro1;
+
+                    // Actualizar los maximos de la posicion 1
+                    max1 := vMaxProd[i];
+                    rubro1 := i;
+                end
+            else if vMaxProd[i] > max2 then
+                begin
+                    max2 := vMaxProd[i];
+                    rubro2 := i;
+                end;
+        end;
+    
+    // Informar maximos y rubros
+    writeln('Rubros con mas productos:');
+    writeln('1er Rubro: ', rubro1, ' con ', max1, ' productos.');
+    writeln('2do Rubro: ', rubro2, ' con ', max2, ' productos.');
+end;
+
 procedure RecorrerLista(Lista: ptrproducto; var Lista1: ptrproducto; var Lista2: ptrproducto; var Lista3: ptrproducto);
 
 var
@@ -230,42 +266,6 @@ begin
             L := L^.sig;
             dispose(aux);
         end;
-end;
-
-procedure InformarMaxRubros(vMaxProd: arrRubros);
-
-var
-    max1, max2, rubro1, rubro2, i: integer;
-
-begin
-    max1 := -1;
-    max2 := -1;
-    rubro1 := 0;
-    rubro2 := 0;
-
-    for i := 1 to 51 do
-        begin
-            if vMaxProd[i] > max1 then
-                begin
-                    // Traspasar los maximos a la segunda posicion
-                    max2 := max1;
-                    rubro2 := rubro1;
-
-                    // Actualizar los maximos de la posicion 1
-                    max1 := vMaxProd[i];
-                    rubro1 := i;
-                end;
-            else if vMaxProd[i] > max2 then
-                begin
-                    max2 := vMaxProd[i];
-                    rubro2 := i;
-                end;
-        end;
-    
-    // Informar maximos y rubros
-    writeln('Rubros con mas productos:');
-    writeln('1er Rubro: ', rubro1, ' con ', max1, ' productos.');
-    writeln('2do Rubro: ', rubro2, ' con ', max2, ' productos.');
 end;
 
 var

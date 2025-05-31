@@ -218,3 +218,6 @@ begin
     ListaProductos := nil;
     IngresarProductos(ListaProductos);
 end.
+
+// Codigos de producto válidos:
+// 7493740134ARIDF, 8482940361PERDS, 1122334455USAAX --> 10 digitos y 5 mayus

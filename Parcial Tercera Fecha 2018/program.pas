@@ -23,7 +23,7 @@ type
 procedure InsertarProducto(var L: ptrproducto; p: ptrproducto);
 
 var
-    ant, act: ptrproducto;
+    ant, act, nuevo: ptrproducto;
 
 begin
     // Creamos un nodo nuevo con los mismos datos de p
@@ -138,11 +138,6 @@ begin
     until (codigoproducto = '0');
 end;
 
-procedure InicializarLista(var Lista: ptrproducto);
-begin
-    Lista := nil;
-end;
-
 procedure RecorrerLista(Lista: ptrproducto; var Lista1: ptrproducto; var Lista2: ptrproducto; var Lista3: ptrproducto);
 
 var
@@ -153,9 +148,9 @@ var
 
 begin
     // Inicializa las listas vacias
-    InicializarLista(Lista1);
-    InicializarLista(Lista2);
-    InicializarLista(Lista3);
+    Lista1 := nil;
+    Lista2 := nil;
+    Lista3 := nil;
     totProd := 0;
 
     // Inicializa las listas en 0
@@ -202,6 +197,9 @@ begin
     // Calculo de promedios:
     if (totProd > 0) then
         begin
+            // Informar punto C
+            InformarMaxRubros(vMaxProd);
+
             // --> Promedio en rubro
             PromedioProductos := totProd / 51;
 
@@ -222,6 +220,54 @@ begin
     
 end;
 
+procedure LiberarListas (var L: ptrproducto);
+
+var aux: ptrproducto;
+begin
+    while (L <> nil) do
+        begin
+            aux := L;
+            L := L^.sig;
+            dispose(aux);
+        end;
+end;
+
+procedure InformarMaxRubros(vMaxProd: arrRubros);
+
+var
+    max1, max2, rubro1, rubro2, i: integer;
+
+begin
+    max1 := -1;
+    max2 := -1;
+    rubro1 := 0;
+    rubro2 := 0;
+
+    for i := 1 to 51 do
+        begin
+            if vMaxProd[i] > max1 then
+                begin
+                    // Traspasar los maximos a la segunda posicion
+                    max2 := max1;
+                    rubro2 := rubro1;
+
+                    // Actualizar los maximos de la posicion 1
+                    max1 := vMaxProd[i];
+                    rubro1 := i;
+                end;
+            else if vMaxProd[i] > max2 then
+                begin
+                    max2 := vMaxProd[i];
+                    rubro2 := i;
+                end;
+        end;
+    
+    // Informar maximos y rubros
+    writeln('Rubros con mas productos:');
+    writeln('1er Rubro: ', rubro1, ' con ', max1, ' productos.');
+    writeln('2do Rubro: ', rubro2, ' con ', max2, ' productos.');
+end;
+
 var
     ListaProductos: ptrproducto;
     Lista1, Lista2, Lista3: ptrproducto;
@@ -229,6 +275,10 @@ begin
     ListaProductos := nil;
     IngresarProductos(ListaProductos);
     RecorrerLista(ListaProductos, Lista1, Lista2, Lista3);
+    LiberarListas(ListaProductos);
+    LiberarListas(Lista1);
+    LiberarListas(Lista2);
+    LiberarListas(Lista3);
 end.
 
 // Codigos de producto válidos:

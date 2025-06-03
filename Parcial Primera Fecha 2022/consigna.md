@@ -2,7 +2,7 @@
 
 ## Ejercicio 1
 
-La provincia de Buenos Aires cuenta con informacion de las personas vacunadas de COVID de cada uno de los 135 partidos que la componen
+La provincia de Buenos Aires cuenta con informacion de las personas vacunadas de COVID de cada uno de los 135 partidos que la componen.
 
 Se dispone de una lista con el registro de cada dia de vacunacion ocurrida en cada partido durante el pasado año. Por cada dia de vacunacion se registra: dia, mes, año, codigo de partido, codigo de zona (de 1 a 5); y cantidad de vacunados.
 

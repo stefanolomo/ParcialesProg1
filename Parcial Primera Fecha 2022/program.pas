@@ -1,0 +1,4 @@
+Program CovidPBA;
+
+begin
+end.

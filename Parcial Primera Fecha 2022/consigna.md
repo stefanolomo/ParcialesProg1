@@ -10,7 +10,7 @@ Tambien se dispone de una estructura que se accede por codigo de partido al nomb
 
 - A. Debido a un error, se sabe que puede haber registros que no corresponden al año pasado. Eliminar estos registros de la lista.
 
-- B. Obtener para cada partido el total de personas vacunadas .
+- B. Obtener para cada partido el total de personas vacunadas.
 
 - C. Informar el nombre y la cantidad de los 2 partidos con menos personas vacunadas el año pasado.
 

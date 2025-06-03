@@ -1,5 +1,9 @@
 Program CovidPBA;
 
+const
+    PARTIDOS = 135;
+    ZONAS = 5;
+
 type
     // Puntero y registro de nodos
     ptrnodo = ^nodo;
@@ -8,7 +12,7 @@ type
         mes: 1..12;
         year: integer;
         codPartido: integer;
-        codZona: 1..5;
+        codZona: 1..ZONAS;
         cantVacunados: integer;
         sig: ptrnodo;
     end;
@@ -16,9 +20,9 @@ type
     ArrListas = array[5] of ptrnodo;
 
 function esPasado(nodo: ptrnodo): boolean;
-
+// La funcion checkea si el año es menor al actual
 begin
-    esPasado := (nodo <> nil) and (nodo^.year <> 2025);
+    esPasado := (nodo <> nil) and (nodo^.year > 2025);
 end;
 
 procedure InsertarOrdenado(var Lista: ptrnodo; nodo: ptrnodo);

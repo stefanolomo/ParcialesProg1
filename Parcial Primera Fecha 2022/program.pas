@@ -29,7 +29,7 @@ type
 function esPasado(nodo: ptrnodo): boolean;
 // La funcion checkea si el año es menor al actual
 begin
-    esPasado := (nodo <> nil) and (nodo^.year > 2025);
+    esPasado := (nodo <> nil) and (nodo^.year < 2025);
 end;
 
 procedure InsertarOrdenadoCopia(var Lista: ptrnodo; nodo: ptrnodo);
@@ -109,7 +109,7 @@ begin
     // Recorremos la lista hasta llegar al ultimo
     while (act <> nil) do
         begin
-            if (act^.year < 2025) then
+            if (esPasado(act)) then
                 begin // Si el año es anterior al 2025, tenemos que eliminar el nodo porque el registro es de un año pasado
                     if (ant = nil) then // Hay que eliminar el primer nodo (act)
                         begin

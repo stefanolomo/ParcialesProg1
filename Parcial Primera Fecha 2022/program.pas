@@ -9,6 +9,7 @@ type
     tipomes = 1..12;
     tipozonas = 1..ZONAS;
     tipopartido = 1..PARTIDOS;
+    tiponombre = string[20];
     // Puntero y registro de nodos
     ptrnodo = ^nodo;
     nodo = record
@@ -22,7 +23,7 @@ type
         sig: ptrnodo;
     end;
     // Arreglo de 5 listas
-    ArrListas = array[5] of ptrnodo;
+    ArrListas = array[1..5] of ptrnodo;
     ArrPartidos = array[1..PARTIDOS] of integer;
 
 function esPasado(nodo: ptrnodo): boolean;
@@ -67,6 +68,14 @@ begin
         end;
 end;
 
+function Nombre(codPartido: integer): tiponombre;
+begin
+    if (codPartido mod 2 = 0) then
+        Nombre := 'La Plata'
+    else
+        Nombre := 'Buenos Aires Ciudad';
+end;
+
 procedure RecorrerLista (var Lista: ptrnodo);
 
 var
@@ -82,8 +91,8 @@ begin
     ant := nil;
 
     // Inicializamos los minimos en valores grandes y el total de vacunados en cero
-    min1 := 999999;
-    min2 := 999999;
+    min1 := 30000;
+    min2 := 30000;
 
     // Inicalizamos los codigos de los dos minimos
     codMin1 := 0;
@@ -127,7 +136,7 @@ begin
                     ArregloTotal[act^.codPartido] := ArregloTotal[act^.codPartido] + act^.cantVacunados;
                     
                     // Tenemos que insertar act en la lista dependiendo de la zona
-                    InsertarOrdenado(ArregloZonas[act^.codZona], act);
+                    InsertarOrdenadoCopia(ArregloZonas[act^.codZona], act);
 
                     // Por ultimo, avanzamos los punteros
                     ant := act;
@@ -160,14 +169,6 @@ begin
     writeln('El primer partido con la menor cantidad de vacunados fue ', Nombre(codMin1), ' con ', min1, ' vacunados.');
 
     writeln('El segundo partido con la menor cantidad de vacunados fue ', Nombre(codMin2), ' con ', min2, ' vacunados.');
-end;
-
-function Nombre(codPartido: integer): string[20];
-begin
-    if (codPartido mod 2 = 0) then
-        Nombre := 'La Plata'
-    else
-        Nombre := 'Buenos Aires Ciudad';
 end;
 
 begin

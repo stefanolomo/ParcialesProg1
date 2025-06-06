@@ -53,6 +53,7 @@ begin
 
             // Elimina el digito que sumamos
             a := a div 10;
+        end;
     SumarDigitos := total;
 end;
 

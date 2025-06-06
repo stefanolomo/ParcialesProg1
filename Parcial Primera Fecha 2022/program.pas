@@ -23,13 +23,13 @@ type
         sig: ptrnodo;
     end;
     // Arreglo de 5 listas
-    ArrListas = array[1..5] of ptrnodo;
+    ArrListas = array[1..ZONAS] of ptrnodo;
     ArrPartidos = array[1..PARTIDOS] of integer;
 
-function esPasado(nodo: ptrnodo): boolean;
+function esPasado(year: integer): boolean;
 // La funcion checkea si el año es menor al actual
 begin
-    esPasado := (nodo <> nil) and (nodo^.year < 2025);
+    esPasado := (year < 2025);
 end;
 
 procedure InsertarOrdenadoCopia(var Lista: ptrnodo; nodo: ptrnodo);
@@ -76,6 +76,76 @@ begin
         Nombre := 'Buenos Aires Ciudad';
 end;
 
+procedure EliminarNodo(var Lista: ptrnodo; var ant: ptrnodo; var act: ptrnodo);
+
+begin
+    if (ant = nil) then // Hay que eliminar el primer nodo (act)
+        begin
+            // La cabeza de lista pasa a ser el siguiente
+            Lista := act^.sig;
+            // Eliminamos el nodo que ya no esta enlazado
+            dispose(act);
+            // Act ahora es la lista (cabeza de lista)
+            act := Lista;
+        end
+        else // De otra manera, hay que eliminar act cuyo anterior es ant
+            begin
+            // El que le sigue al anterior lo enganchamos con el que le sigue a act
+            ant^.sig := act^.sig;
+            // Eliminamos el nodo que ya no esta enlazado
+            dispose (act);
+            // Act ahora es el siguiente del anterior (antiguo act^.sig)
+            act := ant^.sig;
+        end;
+end;
+
+procedure InicializarVectPar(var ArrPart: ArrPartidos);
+
+var
+    i: integer;
+
+begin
+    for i := 1 to PARTIDOS do
+        ArrPart[i] := 0;
+end;
+
+procedure InicializarVectZon(var ArrZon: ArrListas);
+
+var
+    i: integer;
+
+begin
+    for i := 1 to ZONAS do
+        ArrZon[i] := nil;
+end;
+
+procedure CalcularDosMinArrPar(ArrPart: ArrPartidos, var min1: integer; var min2: integer; var codMin1: integer; var codMin2: integer);
+
+var
+    i: integer;
+
+begin
+    for i := 1 to PARTIDOS do
+        begin
+            if (ArrPart[i] < min1) then
+                begin
+                    // Pasamos los minimos al segundo puesto
+                    min2 := min1;
+                    codMin2 := codMin1;
+
+                    // Actualizamos los minimos
+                    min1 := ArrPart[i];
+                    codMin1 := i;
+                end
+            else if (ArrPart[i] < min2) then
+                begin
+                    // Actualizamos los minimos
+                    min2 := ArrPart[i];
+                    codMin2 := i;
+                end;
+        end;
+end;
+
 procedure RecorrerLista (var Lista: ptrnodo);
 
 var
@@ -99,36 +169,17 @@ begin
     codMin2 := 0;
 
     // Inicializar el arreglo de las 5 listas (zonas)
-    for i := 1 to ZONAS do
-        ArregloZonas[i] := nil;
+    InicializarVectZon(ArregloZonas);
     
     // Inicializar el arreglo de los totales de vacunados
-    for i := 1 to PARTIDOS do
-        ArregloTotal[i] := 0;
+    InicializarVectPar(ArregloTotal);
 
     // Recorremos la lista hasta llegar al ultimo
     while (act <> nil) do
         begin
-            if (esPasado(act)) then
+            if (esPasado(act^.year)) then
                 begin // Si el año es anterior al 2025, tenemos que eliminar el nodo porque el registro es de un año pasado
-                    if (ant = nil) then // Hay que eliminar el primer nodo (act)
-                        begin
-                            // La cabeza de lista pasa a ser el siguiente
-                            Lista := act^.sig;
-                            // Eliminamos el nodo que ya no esta enlazado
-                            dispose(act);
-                            // Act ahora es la lista (cabeza de lista)
-                            act := Lista;
-                        end
-                    else // De otra manera, hay que eliminar act cuyo anterior es ant
-                        begin
-                            // El que le sigue al anterior lo enganchamos con el que le sigue a act
-                            ant^.sig := act^.sig;
-                            // Eliminamos el nodo que ya no esta enlazado
-                            dispose (act);
-                            // Act ahora es el siguiente del anterior (antiguo act^.sig)
-                            act := ant^.sig;
-                        end;
+                    EliminarNodo(Lista, ant, act);
                 end
             else // De otra manera el año es 2025 entonces es valido procesarlo
                 begin
@@ -144,25 +195,8 @@ begin
                 end;
         end;
     // Cuando se termino de recorrer los nodos, procedemos a calcular los minimos
-    for i := 1 to PARTIDOS do
-        begin
-            if (ArregloTotal[i] < min1) then
-                begin
-                    // Pasamos los minimos al segundo puesto
-                    min2 := min1;
-                    codMin2 := codMin1;
-
-                    // Actualizamos los minimos
-                    min1 := ArregloTotal[i];
-                    codMin1 := i;
-                end
-            else if (ArregloTotal[i] < min2) then
-                begin
-                    // Actualizamos los minimos
-                    min2 := ArregloTotal[i];
-                    codMin2 := i;
-                end;
-        end;
+    
+    CalcularDosMinArrPar(ArregloTotal, min1, min2, codMin1, codMin2);
 
     // Una vez se termino de calcular los minimos, debemos informar los 2 partidos con la menor cantidad de vacunados y sus nombres
 

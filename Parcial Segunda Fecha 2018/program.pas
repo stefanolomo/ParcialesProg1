@@ -43,7 +43,7 @@ var
 
 begin
     total := 0;
-    while (a <> 0) or (b <> 0) do
+    while (a <> 0) do
         begin
             // Descompone los digitos
             digito := a mod 10;

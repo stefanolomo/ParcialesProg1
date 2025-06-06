@@ -171,8 +171,8 @@ begin
     InicializarListasTipos(arregloListaTipos);
 
     // Se inicializa los maximos y sus nombres
-    tamMax1 := 0;
-    tamMax2 := 0;
+    tamMax1 := -1;
+    tamMax2 := -1;
     nomMax1 := '';
     nomMax2 := '';
 

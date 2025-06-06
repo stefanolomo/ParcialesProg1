@@ -205,7 +205,18 @@ begin
                 if (totalArchivos > 0) then
                     writeln('El tipo de archivo ', Nombre(i), ' aparece ', arregloCantTipos[i], ' veces. Eso hace que forme el ', (arregloCantTipos[i] / totalArchivos)*100, '% de los archivos en la lista');
             end;
+
+    // Liberamos memoria de las listas
+    for i := 1 to TIPOS do
+        LiberarListas(arregloListaTipos[i]);
 end;
 
+var
+    ListaArchivos: ptrnodo;
+
 begin
+    ListaArchivos := nil;
+    // CargarLista(ListaArchivos); (Se dispone)
+    RecorrerLista(ListaArchivos);
+    LiberarListas(ListaArchivos);
 end.

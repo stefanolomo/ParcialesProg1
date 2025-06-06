@@ -110,7 +110,7 @@ end;
 procedure InsertarOrdenado(var Lista: ptrnodo; nodo: ptrnodo);
 
 begin
-    
+    // Todo
 end;
 
 procedure RecorrerLista (var Lista: ptrnodo);

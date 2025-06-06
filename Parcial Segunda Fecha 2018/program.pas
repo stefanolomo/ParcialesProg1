@@ -138,6 +138,21 @@ begin
         end;
 end;
 
+function Nombre(tipo: integer): string; // Se dispone
+begin
+  case tipo of
+    1: Nombre := 'Texto';
+    2: Nombre := 'Imagen';
+    3: Nombre := 'Audio';
+    4: Nombre := 'Video';
+    5: Nombre := 'PDF';
+    // Agrega más tipos según tus necesidades
+  else
+    Nombre := 'Desconocido';
+  end;
+end;
+
+
 procedure RecorrerLista (var Lista: ptrnodo);
 
 var

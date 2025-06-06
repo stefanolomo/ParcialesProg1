@@ -35,20 +35,15 @@ end;
 procedure InsertarOrdenadoCopia(var Lista: ptrnodo; nodo: ptrnodo);
 
 var
-    ant, act, copia: ptrnodo;
+    ant, act: ptrnodo;
 
 begin
     // Inicializamos act en la lista y el anterior en nil
     act := Lista;
     ant := nil;
 
-    // Crear copia del nodo a insertar
-    new(copia);
-    copia^ := nodo^;
-    copia^.sig := nil;
-
     // Mientras no sea el ultimo y sea menor que el codigo de zona recorremos la lista
-    while (act <> nil) and (act^.codPartido < copia^.codPartido) do
+    while (act <> nil) and (act^.codPartido < nodo^.codPartido) do
         begin
             ant := act;
             act := act^.sig;
@@ -58,13 +53,13 @@ begin
     // Si ant es nil, tenemos que insertar en el principio de la lista
     if (ant = nil) then
         begin
-            copia^.sig := Lista;
-            Lista := copia;
+            nodo^.sig := Lista;
+            Lista := nodo;
         end
     else // Si ant es un nodo, entonces hay que insertar entre ant y act o bien al final
         begin
-            ant^.sig := copia;
-            copia^.sig := act;
+            ant^.sig := nodo;
+            nodo^.sig := act;
         end;
 end;
 

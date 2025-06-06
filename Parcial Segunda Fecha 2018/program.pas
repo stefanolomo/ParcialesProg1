@@ -107,10 +107,16 @@ begin
         end;
 end;
 
+procedure InsertarOrdenado(var Lista: ptrnodo; nodo: ptrnodo);
+
+begin
+    
+end;
+
 procedure RecorrerLista (var Lista: ptrnodo);
 
 var
-    ant, act: ptrnodo;
+    act: ptrnodo;
     arregloCantTipos: ArrArchivos;
     arregloListaTipos: ArrPorTipo;
     totalArchivos, i: Integer;
@@ -119,7 +125,6 @@ var
 
 begin
     // Seteamos el anterior a nil y el actual a la lista
-    ant := nil;
     act := lista;
 
     // Seteamos el total en 0
@@ -149,7 +154,6 @@ begin
             InsertarOrdenado(arregloListaTipos[act^.archivo], act);
 
             // Avanzamos en la lista
-            ant := act;
             act := act^.sig;
             totalArchivos := totalArchivos + 1;
         end;

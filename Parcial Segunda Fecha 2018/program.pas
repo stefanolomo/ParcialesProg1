@@ -109,8 +109,33 @@ end;
 
 procedure InsertarOrdenado(var Lista: ptrnodo; nodo: ptrnodo);
 
+var
+    ant, act: ptrnodo;
+
 begin
-    // Todo
+    // Inicializamos ant y act
+    ant := nil;
+    act := Lista;
+
+    while (act <> nil) and (act^.size >= nodo^.size) do
+        begin
+            // Recorremos la lista hasta el ultimo o hasta que se llegue a la posicion a insertar
+            ant := act;
+            act := act^.sig;
+        end;
+    // Una vez terminado el bucle, se tiene que insertar entre ant y act
+
+    // Si ant es nil estamos al principio de la lista
+    if (ant = nil) then
+        begin
+            nodo^.sig := Lista;
+            Lista := nodo;
+        end
+    else // De otra manera hay que insertar entre ant y act
+        begin
+            ant^.sig := nodo;
+            nodo^.sig := act;
+        end;
 end;
 
 procedure RecorrerLista (var Lista: ptrnodo);

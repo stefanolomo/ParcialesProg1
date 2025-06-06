@@ -36,26 +36,23 @@ begin
         end;
 end;
 
-function SumarDigitos(a: integer; b: integer): integer;
+function SumaDigitos(a: integer): integer;
 
 var
-    total, digitoa, digitob: integer;
+    total, digito: integer;
 
 begin
     total := 0;
     while (a <> 0) or (b <> 0) do
         begin
             // Descompone los digitos
-            digitoa := a mod 10;
-            digitob := b mod 10;
+            digito := a mod 10;
 
             // Suma los digitos al total
-            total := total + digitoa + digitob;
+            total := total + digito;
 
             // Elimina el digito que sumamos
             a := a div 10;
-            b := b div 10;
-        end;
     SumarDigitos := total;
 end;
 
@@ -65,9 +62,7 @@ var
     codCalculado: integer;
 
 begin
-    codCalculado := SumarDigitos(nodo^.dia, nodo^.mes);
-    codCalculado := codCalculado + SumarDigitos(nodo^.year, nodo^.size);
-    codCalculado := codCalculado + nodo^.archivo;
+    codCalculado := SumaDigitos(nodo^.dia) + SumaDigitos(nodo^.mes) + SumaDigitos(nodo^.year) + SumaDigitos(nodo^.size) + SumaDigitos(nodo^.archivo);
     
     CodigoSeguridadValido := (nodo^.codSeguridad = codCalculado)
 end;
@@ -174,6 +169,12 @@ begin
     InicializarArrCantArch(arregloCantTipos);
     InicializarListasTipos(arregloListaTipos);
 
+    // Se inicializa los maximos y sus nombres
+    tamMax1 := 0;
+    tamMax2 := 0;
+    nomMax1 := '';
+    nomMax2 := '';
+
     while (act <> nil) do
         begin
             if not (CodigoSeguridadValido(act)) then
@@ -198,6 +199,10 @@ begin
             totalArchivos := totalArchivos + 1;
         end;
         // Cuanto termino el bucle, se termino de procesar todos los archivos
+
+        // Informamos los maximos
+        writeln('El primer archivo mas grande anterior a 2015 es: ', nomMax1, ' con tamaño ', tamMax1);
+        writeln('El segundo archivo mas grande anterior a 2015 es: ', nomMax2, ' con tamaño ', tamMax2);
 
         // Calculamos e informamos los porcentajes de cada tipo de archivo
         for i := 1 to TIPOS do

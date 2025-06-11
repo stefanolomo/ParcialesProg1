@@ -9,6 +9,7 @@ type
     tiposala = 1..440;
     tipopais = 1..24;
     tipopelicula = 1..340;
+    tiponombre = string[40];
 
     registrodatos = record
         // Codigos de funcion, sala, pais y pelicula
@@ -121,6 +122,47 @@ begin
             nodo^.sig := act;
         end;
     
+end;
+
+function nombrePeli(pelicula: tipopelicula): tiponombre; // Se dispone
+
+begin
+    nombrePeli := 'Casino Royale (2006)';
+end;
+
+procedure RecorrerLista(var Lista: ptrnodo);
+
+var
+    aux, Taquilleras: ptrnodo;
+    maxEntradas, max1: integer;
+    matrizCostos: matrizPeliculaxPais;
+    i, j: integer;
+
+begin
+    aux := Lista;
+    Taquilleras := nil;
+    max1 := 0;
+
+    while (aux <> nil) do
+        begin
+            writeln('Cual es la cantidad de entradas a considerar maximo?');
+            readln(maxEntradas);
+
+            if (EntradasMayoresA(aux^.datos.cantEntradas, maxEntradas)) then
+                begin
+                    InsertarOrdenado(aux, Taquilleras);
+                end;
+            
+            if (EsPar(SumaDigitos(aux^.datos.codFuncion))) then
+                begin
+                    writeln(aux^.datos.codFuncion);
+                end;
+            
+            if (EntradasMayoresA(aux^.datos.cantEntradas), max1) then
+                max1 := aux^.datos.cantEntradas;
+
+            matrizCostos[aux^.datos.codPais, aux^.datos.codPelicula] := matrizPrecioEntrada[aux^.datos.codPais, aux^.datos.codPelicula] * aux^.datos.cantEntradas;
+        end;
 end;
 
 begin

@@ -10,8 +10,7 @@ type
     tipopais = 1..24;
     tipopelicula = 1..340;
 
-    ptrnodo = ^nodo;
-    nodo = record
+    registrodatos = record
         // Codigos de funcion, sala, pais y pelicula
         codFuncion: Integer;
         codSala: tiposala;
@@ -27,6 +26,15 @@ type
 
         // Cantidad de entradas vendidas
         cantEntradas: Integer;
+    end;
+
+    // Puntero a nodos
+    ptrnodo = ^nodo;
+
+    // Nodo de lista
+    nodo = record
+        // Registro con todos los datos
+        datos: registrodatos;
 
         // Puntero al siguiente nodo
         sig: ptrnodo;
@@ -85,6 +93,34 @@ begin
             Lista := Lista^.sig;
             dispose(aux);
         end;
+end;
+
+procedure InsertarOrdenado(var Lista: ptrnodo; nodo: ptrnodo);
+
+var
+    ant, act: ptrnodo;
+
+begin
+    ant := nil;
+    act := Lista;
+
+    while (act <> nil) and (act^.datos.codFuncion <= nodo^.datos.codFuncion) do
+        begin
+            ant := act;
+            act := act^.sig;
+        end;
+    
+    if (ant = nil) then
+        begin
+            nodo^.sig := Lista;
+            Lista := nodo;
+        end
+    else
+        begin
+            ant^.sig := nodo;
+            nodo^.sig := act;
+        end;
+    
 end;
 
 begin

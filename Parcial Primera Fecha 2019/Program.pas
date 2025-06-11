@@ -175,7 +175,7 @@ begin
                 max1 := aux^.datos.cantEntradas;
 
             // matrizPrecioEntrada se dispone
-            matrizCostos[aux^.datos.codPais, aux^.datos.codPelicula] := matrizPrecioEntrada[aux^.datos.codPais, aux^.datos.codPelicula] * aux^.datos.cantEntradas;
+            matrizCostos[aux^.datos.codPais, aux^.datos.codPelicula] := matrizCostos[aux^.datos.codPais, aux^.datos.codPelicula] + matrizPrecioEntrada[aux^.datos.codPais, aux^.datos.codPelicula] * aux^.datos.cantEntradas;
         end;
     
 end;

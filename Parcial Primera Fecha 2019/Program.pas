@@ -191,4 +191,5 @@ begin
     
     // Al final de todo liberamos la memoria
     LiberarLista(Taquilleras);
+    LiberarLista(Lista);
 end.

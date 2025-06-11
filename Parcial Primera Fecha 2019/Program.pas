@@ -148,16 +148,15 @@ begin
         end;
 end;
 
-procedure RecorrerLista(var Lista: ptrnodo);
+procedure RecorrerLista(var Lista: ptrnodo; var Taquilleras: ptrnodo);
 
 var
-    aux, Taquilleras: ptrnodo;
+    aux: ptrnodo;
     maxEntradas, max1: integer;
     matrizCostos: matrizPeliculaxPais;
 
 begin
     aux := Lista;
-    Taquilleras := nil;
     max1 := 0;
     inicializarMatriz(matrizCostos);
 
@@ -178,8 +177,18 @@ begin
             // matrizPrecioEntrada se dispone
             matrizCostos[aux^.datos.codPais, aux^.datos.codPelicula] := matrizPrecioEntrada[aux^.datos.codPais, aux^.datos.codPelicula] * aux^.datos.cantEntradas;
         end;
+    
 end;
 
+var
+    Taquilleras, Lista: ptrnodo;
+
 begin
+    Taquilleras := nil;
+    cargarLista(Lista); // Se dispone
+
+    RecorrerLista(Lista, Taquilleras);
     
+    // Al final de todo liberamos la memoria
+    LiberarLista(Taquilleras);
 end.

@@ -139,7 +139,6 @@ var
     aux, Taquilleras: ptrnodo;
     maxEntradas, max1: integer;
     matrizCostos: matrizPeliculaxPais;
-    i, j: integer;
 
 begin
     aux := Lista;

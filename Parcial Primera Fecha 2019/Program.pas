@@ -96,14 +96,17 @@ begin
         end;
 end;
 
-procedure InsertarOrdenado(var Lista: ptrnodo; nodo: ptrnodo);
+procedure InsertarOrdenado(var Lista: ptrnodo; datos: registrodatos);
 
 var
-    ant, act: ptrnodo;
+    ant, act, nodo: ptrnodo;
 
 begin
     ant := nil;
     act := Lista;
+
+    new(nodo);
+    nodo^.datos := datos;
 
     while (act <> nil) and (act^.datos.codFuncion <= nodo^.datos.codFuncion) do
         begin

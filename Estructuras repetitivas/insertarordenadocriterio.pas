@@ -23,7 +23,7 @@ begin
     // En el registro del nuevo nodo debemos insertar los datos que se le pasan al procedimiento
     NuevoNodo^.Datos := Datos;
 
-    while (Actual <> nil) and (Actual^.Datos.Criterio < NuevoNodo.Datos.Criterio) do // Mientras el anteior no sea nil, recorremos la lista. Esta condicion nos va a permitir recorrer la lista hasta llegar al punto en el que tenemos que insertar. El criterio se pone como segunda condicion.
+    while (Actual <> nil) and (Actual^.Datos.Criterio < NuevoNodo^.Datos.Criterio) do // Mientras el anteior no sea nil, recorremos la lista. Esta condicion nos va a permitir recorrer la lista hasta llegar al punto en el que tenemos que insertar. El criterio se pone como segunda condicion.
         begin
             // El anterior es el que era el actual
             Anterior := Actual;
@@ -34,7 +34,7 @@ begin
 
     // Una vez que se sale del bucle while: Hay que insertar entre Anterior y Actual
 
-    // Se contemplan dos condiciones: Hay que insertar al principio de la lista o en el medio de los dos nodos
+    // Se contemplan dos condiciones: Hay que insertar al principio de la lista (O esta vacia) o en el medio de los dos nodos
 
     // Si hay que insertar al principio, Anterior deberia ser nil
     if (Anterior = nil) then

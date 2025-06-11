@@ -159,12 +159,13 @@ begin
     aux := Lista;
     Taquilleras := nil;
     max1 := 0;
+    inicializarMatriz(matrizCostos);
+
+    writeln('Cual es la cantidad de entradas a considerar maximo?');
+    readln(maxEntradas);
 
     while (aux <> nil) do
         begin
-            writeln('Cual es la cantidad de entradas a considerar maximo?');
-            readln(maxEntradas);
-
             if (EntradasMayoresA(aux^.datos.cantEntradas, maxEntradas)) then
                 InsertarOrdenado(Taquilleras, aux^.datos);
             

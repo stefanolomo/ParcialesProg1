@@ -133,6 +133,21 @@ begin
     nombrePeli := 'Casino Royale (2006)';
 end;
 
+Procedure inicializarMatriz(var matriz: matrizPeliculaxPais);
+
+var
+    i, j: integer;
+
+begin
+    for i := 1 to 24 do
+        begin
+            for j := 1 to 340 do
+                begin
+                    matriz[i, j] := 0;
+                end;
+        end;
+end;
+
 procedure RecorrerLista(var Lista: ptrnodo);
 
 var
@@ -151,18 +166,15 @@ begin
             readln(maxEntradas);
 
             if (EntradasMayoresA(aux^.datos.cantEntradas, maxEntradas)) then
-                begin
-                    InsertarOrdenado(aux, Taquilleras);
-                end;
+                InsertarOrdenado(Taquilleras, aux^.datos);
             
             if (EsPar(SumaDigitos(aux^.datos.codFuncion))) then
-                begin
-                    writeln(aux^.datos.codFuncion);
-                end;
+                writeln(aux^.datos.codFuncion);
             
-            if (EntradasMayoresA(aux^.datos.cantEntradas), max1) then
+            if (EntradasMayoresA(aux^.datos.cantEntradas, max1)) then
                 max1 := aux^.datos.cantEntradas;
 
+            // matrizPrecioEntrada se dispone
             matrizCostos[aux^.datos.codPais, aux^.datos.codPelicula] := matrizPrecioEntrada[aux^.datos.codPais, aux^.datos.codPelicula] * aux^.datos.cantEntradas;
         end;
 end;

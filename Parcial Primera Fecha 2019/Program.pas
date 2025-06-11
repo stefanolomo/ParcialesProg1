@@ -4,8 +4,8 @@ type
     // Tipos del registro
     tipodia = 1..31;
     tipomes = 1..12;
-    tipohora = 1..23;
-    tipominuto = 1..59;
+    tipohora = 0..23;
+    tipominuto = 0..59;
     tiposala = 1..440;
     tipopais = 1..24;
     tipopelicula = 1..340;

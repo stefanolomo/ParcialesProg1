@@ -9,7 +9,7 @@ type
     tipomes = 1..12;
     tipoarchivo = 1..TIPOS;
     ptrnodo = ^nodo;
-    nodo = record
+    registrodatos = record
         nombre: tiponombre;
         dia: tipodia;
         mes: tipomes;
@@ -17,6 +17,9 @@ type
         size: integer;
         archivo: tipoarchivo;
         codSeguridad: integer;
+    end;
+    nodo = record
+        datos: registrodatos;
         sig: ptrnodo;
     end;
     ArrArchivos = array[1..TIPOS] of integer;
@@ -63,9 +66,9 @@ var
     codCalculado: integer;
 
 begin
-    codCalculado := SumaDigitos(nodo^.dia) + SumaDigitos(nodo^.mes) + SumaDigitos(nodo^.year) + SumaDigitos(nodo^.size) + SumaDigitos(nodo^.archivo);
+    codCalculado := SumaDigitos(nodo^.datos.dia) + SumaDigitos(nodo^.datos.mes) + SumaDigitos(nodo^.datos.year) + SumaDigitos(nodo^.datos.size) + SumaDigitos(nodo^.datos.archivo);
     
-    CodigoSeguridadValido := (nodo^.codSeguridad = codCalculado)
+    CodigoSeguridadValido := (nodo^.datos.codSeguridad = codCalculado)
 end;
 
 procedure InicializarListasTipos(var ArrListas: ArrPorTipo);
@@ -85,35 +88,37 @@ end;
 procedure ActualizarMax(act: ptrnodo; var nomMax1: tiponombre; var nomMax2: tiponombre; var tamMax1: integer; var tamMax2: integer);
 
 begin
-    if (act^.size > tamMax1) then
+    if (act^.datos.size > tamMax1) then
         begin
             // Pasar max1 al max2
             nomMax2 := nomMax1;
             tamMax2 := tamMax1;
 
             // Actualizar max1
-            nomMax1 := act^.nombre;
-            tamMax1 := act^.size;
+            nomMax1 := act^.datos.nombre;
+            tamMax1 := act^.datos.size;
         end
-    else if (act^.size > tamMax2) then
+    else if (act^.datos.size > tamMax2) then
         begin
             // Actualizar max2
-            nomMax2 := act^.nombre;
-            tamMax2 := act^.size;
+            nomMax2 := act^.datos.nombre;
+            tamMax2 := act^.datos.size;
         end;
 end;
 
-procedure InsertarOrdenado(var Lista: ptrnodo; nodo: ptrnodo);
+procedure InsertarOrdenado(var Lista: ptrnodo; datos: registrodatos);
 
 var
-    ant, act: ptrnodo;
+    ant, act, nodo: ptrnodo;
 
 begin
+    new(nodo);
+    nodo^.datos := datos;
     // Inicializamos ant y act
     ant := nil;
     act := Lista;
 
-    while (act <> nil) and (act^.size >= nodo^.size) do
+    while (act <> nil) and (act^.datos.size >= nodo^.datos.size) do
         begin
             // Recorremos la lista hasta el ultimo o hasta que se llegue a la posicion a insertar
             ant := act;
@@ -181,19 +186,19 @@ begin
             if not (CodigoSeguridadValido(act)) then
                 begin
                     // Si el codigo no es valido, informamos el nombre
-                    writeln('Se encontro un archivo no valido con el nombre: ', act^.nombre);
+                    writeln('Se encontro un archivo no valido con el nombre: ', act^.datos.nombre);
                 end
-            else if (act^.year < 2015) then
+            else if (act^.datos.year < 2015) then
                 begin
                     // Si es de antes del 2015, llevamos cuenta del maximo tamaño y su nombre (2 maximos)
                     ActualizarMax(act, nomMax1, nomMax2, tamMax1, tamMax2);
                 end;
             
             // Para cada archivo, sumamos 1 al arreglo de tipos dependiendo de su tipo
-            arregloCantTipos[act^.archivo] := arregloCantTipos[act^.archivo] + 1;
+            arregloCantTipos[act^.datos.archivo] := arregloCantTipos[act^.datos.archivo] + 1;
 
             // Cada archivo lo insertamos en la lista del arreglo de listas en el indice del archivo
-            InsertarOrdenado(arregloListaTipos[act^.archivo], act);
+            InsertarOrdenado(arregloListaTipos[act^.datos.archivo], act^.datos);
 
             // Avanzamos en la lista
             act := act^.sig;

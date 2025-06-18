@@ -36,7 +36,7 @@ begin
     end;
 end;
 
-procedure FechaMenor(Fecha1: registrofecha, Fecha2: registrofecha);
+function FechaMenor(Fecha1: registrofecha, Fecha2: registrofecha): boolean;
 
 begin
     FechaMenor := (Fecha1.dia <= Fecha2.dia) and (Fecha1.mes <= Fecha2.mes) and (Fecha1.year <= Fecha2.year);
@@ -151,10 +151,28 @@ begin
         act := act^.sig;
     end;
 
+    // Al salir del ciclo se imprime el ultimo dia
+    writeln(FechaAnterior.dia, FechaAnterior.mes, FechaAnterior.year);
+    writeln(totalDia);
+
     HallarMax(ArrUsuarios, user1, user2);
 
     writeln(Nombre(user1), Nombre(user2));
 end;
 
+var
+    Lista, Lista1, Lista2, Lista3: ptrnodo;
+
 begin
+    // CargarLista(Lista); se dispone
+    Lista1 := nil;
+    Lista2 := nil;
+    Lista3 := nil;
+
+    RecorrerLista(Lista, Lista1, Lista2, Lista3);
+
+    LiberarLista(Lista);
+    LiberarLista(Lista1);
+    LiberarLista(Lista2);
+    LiberarLista(Lista3);
 end.

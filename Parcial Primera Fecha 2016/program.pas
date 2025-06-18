@@ -78,7 +78,7 @@ begin
         Arreglo[i] := 0;
 end;
 
-procedure RecorrerLista(Lista: ptrnodo);
+procedure RecorrerLista(Lista: ptrnodo, var Lista1, Lista2, Lista3: ptrnodo);
 
 var
     act: ptrnodo;
@@ -118,6 +118,13 @@ begin
         end;
 
         ArrUsuarios[act^.datos.codUsuario] := ArrUsuarios[act^.datos.codUsuario] + (act^.datos.costoUnitario * act^.datos.cantProducto);
+
+        if (act^.datos.costoUnitario >= 10000) then
+            InsertarOrdenado(Lista3, act^.datos);
+        else if (act^.datos.costoUnitario >= 500) then
+            InsertarOrdenado(Lista2, act^.datos);
+        else if (act^.datos.costoUnitario > 0) then
+            InsertarOrdenado(Lista1, act^.datos);
 
         FechaAnterior := FechaActual;
 

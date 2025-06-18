@@ -10,7 +10,7 @@ Se dispone de una lista de las ventas ordenadas por fecha. Tambien se dispone de
 
 - B. Calcular e informar el nombre de los 2 usuarios que mas facturaron.
 
-Se require: <Para cada venta> --> ActualizarMaximos(val, val)
+Se require: <Para cada venta> --> Arreglo50Users[userindex], HallarMaxEnArreglo() --> i
 
 - C. Generar tres nuevas listas con las ventas separadas por el valor de sus productos. La primera con el precio unitario menor a 500, la segunda de 500 a 10000 y la tercera de 10000 en adelante. Mantener estas listas ordenadas por su original.
 

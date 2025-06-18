@@ -78,6 +78,29 @@ begin
         Arreglo[i] := 0;
 end;
 
+procedure HallarMax(vect: ArrUsuarios; var max1, max2: tipousuario);
+
+var i, cant1, cant2: integer;
+
+begin
+    cant1 := 0;
+    cant2 := 0;
+
+    for i := 1 to 50 do begin
+        if (vect[i] > cant1) then begin
+            max2 := max1;
+            cant2 := cant1;
+
+            cant1 := vect[i];
+            max1 := i;
+        end
+        else if (vect[i] > cant2) then begin
+            cant2 := vect[i];
+            max2 := i;
+        end;
+    end;
+end;
+
 procedure RecorrerLista(Lista: ptrnodo, var Lista1, Lista2, Lista3: ptrnodo);
 
 var
@@ -85,7 +108,6 @@ var
     FechaActual: registrofecha;
     FechaAnterior: registrofecha;
     totalDia: integer;
-    cant1, cant2: integer;
     user1, user2: tipousuario;
     ArrUsuarios: ArrUsuarios;
 
@@ -101,8 +123,6 @@ begin
 
     user1 := 1;
     user2 := 1;
-    cant1 := -1;
-    cant2 := -1;
 
     while (act <> nil) do begin
         FechaActual := act^.datos.fecha;
@@ -130,6 +150,10 @@ begin
 
         act := act^.sig;
     end;
+
+    HallarMax(ArrUsuarios, user1, user2);
+
+    writeln(Nombre(user1), Nombre(user2));
 end;
 
 begin

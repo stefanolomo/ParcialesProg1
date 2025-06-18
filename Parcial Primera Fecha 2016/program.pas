@@ -36,6 +36,12 @@ begin
     end;
 end;
 
+procedure FechaMenor(Fecha1: registrofecha, Fecha2: registrofecha);
+
+begin
+    FechaMenor := (Fecha1.dia <= Fecha2.dia) and (Fecha1.mes <= Fecha2.mes) and (Fecha1.year <= Fecha2.year);
+end;
+
 procedure InsertarOrdenado(var Lista: ptrnodo; datos: registrodatos);
 
 var
@@ -48,7 +54,7 @@ begin
     new(nodo);
     nodo^.datos := datos;
 
-    while (act <> nil) do begin
+    while (act <> nil) and FechaMenor(act^.datos.fecha, nodo^.datos.fecha) do begin
         ant := act;
         act := act^.sig;
     end;

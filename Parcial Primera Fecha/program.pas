@@ -20,6 +20,7 @@ type
     end;
 
     ArrListas = Array[tipoconsultorio] of ptrnodo;
+    cint = set of 1..9;
 
 procedure InsertarOrdenado(var Lista: ptrnodo; datos: registrodatos);
 
@@ -131,6 +132,31 @@ begin
     end;
     
     writeln('En la lista habia/n ', i, ' elemento/s.');
+end;
+
+procedure DescomponerDigitos(num: integer; var conj: cint);
+
+var
+    digito: integer;
+
+begin
+    while (num <> 0) do begin
+        digito := num mod 10;
+
+        conj := conj + [digito];
+
+        num := num div 10;
+    end;
+end;
+
+function CalcularHonorario(consultorio: tipoconsultorio; ObraSocial: tipoobra):integer;
+
+begin
+    if ((consultorio mod 2) = 0) then
+        CalcularHonorario := consultorio * ObraSocial * 3
+    else begin
+        CalcularHonorario := consultorio * ObraSocial * 2;
+    end;
 end;
 
 var

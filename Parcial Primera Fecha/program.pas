@@ -138,6 +138,12 @@ var
     i: integer;
 
 begin
+    writeln(' ');
+    writeln('╔═╗┬  ┬┌┐┌┬┌─┐┌─┐  ╔╦╗╔╦╗');
+    writeln('║  │  ││││││  ├─┤  ║║║ ║║');
+    writeln('╚═╝┴─┘┴┘└┘┴└─┘┴ ┴  ╩ ╩═╩╝');
+    writeln(' ');
+
     InicializarConsultorios(ArregloConsultorios);
 
     CargarListas(ArregloConsultorios);

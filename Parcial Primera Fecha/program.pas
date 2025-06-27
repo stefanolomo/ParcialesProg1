@@ -21,7 +21,7 @@ type
 
     ArrListas = Array[tipoconsultorio] of ptrnodo;
 
-procedure InsertarOrednado(var Lista: ptrnodo; datos: registrodatos);
+procedure InsertarOrdenado(var Lista: ptrnodo; datos: registrodatos);
 
 var
     ant, act, nodo: ptrnodo;
@@ -39,7 +39,7 @@ begin
     end;
 
     if (ant = nil) then begin
-        nodo^.sig = Lista;
+        nodo^.sig := Lista;
         Lista := nodo;
     end else begin
         ant^.sig := nodo;
@@ -47,8 +47,103 @@ begin
     end;
 end;
 
-
+procedure Leerdatos(var datos: registrodatos; var consultorio: tipoconsultorio);
 
 begin
+    writeln('Ingresar el apellido: ');
+    readln(datos.Apellido);
+    if (datos.Apellido <> 'ZZZ') then begin
+        writeln('Ingresar el nombre: ');
+        readln(datos.Nombre);
+        writeln('Ingresar el consultorio: ');
+        readln(consultorio);
+        writeln('Ingresar el DNI: ');
+        readln(datos.DNI);
+        writeln('Ingresar la obra social: ');
+        readln(datos.ObraSocial);
+        writeln('Ingresar el numero de afiliado: ');
+        readln(datos.Afiliado);
+    end;
+end;
+
+procedure CargarListas(var Lista: ArrListas);
+
+var
+    datos: registrodatos;
+    consultorio: tipoconsultorio;
+
+begin
+    repeat    
+        Leerdatos(datos, consultorio);
+
+        if (datos.Apellido <> 'ZZZ') then
+            InsertarOrdenado(Lista[consultorio], datos);
+    until (datos.Apellido = 'ZZZ');
+end;
+
+procedure LiberarLista(var Lista: ptrnodo);
+
+var
+    act: ptrnodo;
+
+begin
+    act := Lista;
+    while (Lista <> nil) do begin
+        act := Lista;
+        Lista := Lista^.sig;
+        dispose(act);
+    end;
+end;
+
+procedure InicializarConsultorios(var ArrCon: ArrListas);
+
+var
+    i: integer;
+
+begin
+    for i := 1 to 12 do begin
+        ArrCon[i] := nil;
+    end;
+end;
+
+procedure InformarLista (Lista: ptrnodo);
+
+var
+    i: integer;
+    datos: registrodatos;
+
+begin
+    i := 0;
+
+    while (Lista <> nil) do begin
+        i := i + 1;
+        datos := Lista^.datos;
+
+        writeln('Nodo ', i);
+
+        writeln('Apellido: ', datos.Apellido);
+        writeln('DNI: ', datos.DNI);
+        writeln('Nombre: ', datos.Nombre);
+        writeln('Obra social: ', datos.ObraSocial);
+        writeln('Numero de afiliado: ', datos.Afiliado);
+
+        Lista := Lista^.sig;
+    end;
     
+    writeln('En la lista habia/n ', i, ' elemento/s.');
+end;
+
+var
+    ArregloConsultorios: ArrListas;
+    i: integer;
+
+begin
+    InicializarConsultorios(ArregloConsultorios);
+
+    CargarListas(ArregloConsultorios);
+
+    for i := 1 to 12 do begin
+        writeln('Para el consultorio ', i, ' la lista es: ');
+        InformarLista(ArregloConsultorios[i]);
+    end;
 end.

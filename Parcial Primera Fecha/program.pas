@@ -238,6 +238,10 @@ begin
     writeln('╚═╝┴─┘┴┘└┘┴└─┘┴ ┴  ╩ ╩═╩╝');
     writeln(' ');
 
+    writeln('La clínica MP gestiona la atención de pacientes en 12 consultorios, cada uno con una lista ordenada alfabéticamente por apellido. De cada paciente se registra nombre, apellido, DNI, obra social (1 a 20), número de afiliado y consultorio al que asiste. Se solicita implementar la carga de pacientes desde teclado, finalizando con apellido ZZZ, insertándolos ordenadamente en la lista correspondiente. Luego, recorrer todas las listas una sola vez para: (A) informar los pacientes cuyo número de afiliado contiene todos los dígitos del DNI, (B) eliminar a los que no cumplen esa condición y (C) calcular la recaudación total por honorarios adicionales para cada consultorio, en base a la obra social y el número de consultorio.');
+
+    writeln(' ');
+
     InicializarConsultorios(ArregloConsultorios);
     InicializarArreglo(Honorarios);
 
@@ -249,5 +253,9 @@ begin
     for i := 1 to 12 do begin
         writeln('Para el consultorio ', i, ' la lista es: ');
         InformarLista(ArregloConsultorios[i]);
+    end;
+
+    for i := 1 to 12 do begin
+        LiberarLista(ArregloConsultorios[i]);
     end;
 end.

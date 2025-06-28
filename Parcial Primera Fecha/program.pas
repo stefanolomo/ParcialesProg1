@@ -52,19 +52,19 @@ end;
 procedure Leerdatos(var datos: registrodatos; var consultorio: tipoconsultorio);
 
 begin
-    writeln('Ingresar el apellido: ');
+    writeln('>> Ingresar el apellido: ');
     readln(datos.Apellido);
     if (datos.Apellido <> 'ZZZ') then begin
-        writeln('Ingresar el nombre: ');
+        writeln('>> Ingresar el nombre: ');
         readln(datos.Nombre);
-        writeln('Ingresar el consultorio: ');
+        writeln('>> Ingresar el consultorio: ');
         readln(consultorio);
-        writeln('Ingresar el DNI: ');
+        writeln('>> Ingresar el DNI: ');
         readln(datos.DNI);
-        writeln('Ingresar la obra social: ');
-        readln(datos.ObraSocial);
-        writeln('Ingresar el numero de afiliado: ');
+        writeln('>> Ingresar el numero de afiliado: ');
         readln(datos.Afiliado);
+        writeln('>> Ingresar la obra social: ');
+        readln(datos.ObraSocial);
     end;
 end;
 
@@ -135,6 +135,16 @@ begin
     writeln('En la lista habia/n ', i, ' elemento/s.');
 end;
 
+procedure InformarPaciente(datos: registrodatos);
+
+begin
+    writeln('Apellido: ', datos.Apellido);
+    writeln('DNI: ', datos.DNI);
+    writeln('Nombre: ', datos.Nombre);
+    writeln('Obra social: ', datos.ObraSocial);
+    writeln('Numero de afiliado: ', datos.Afiliado);
+end;
+
 procedure DescomponerDigitos(num: longint; var conj: cint);
 
 var
@@ -160,9 +170,66 @@ begin
     end;
 end;
 
+function AfiliadoValido (Afiliado, DNI: longint): boolean;
+
+var
+    conjDNI, conjAf: cint;
+
+begin
+    conjAf := [];
+    conjDNI := [];
+
+    DescomponerDigitos(Afiliado, conjAf);
+    DescomponerDigitos(DNI, conjDNI);
+
+    AfiliadoValido := (conjDNI <= conjAf);
+end;
+
+procedure RecorrerLista(var Lista: ptrnodo; consultorio: tipoconsultorio; var Honorarios: ArrConsult);
+
+var
+    ant, act, aux: ptrnodo;
+
+begin
+    ant := nil;
+    act := Lista;
+
+    while (act <> nil) do begin
+        if AfiliadoValido(act^.datos.Afiliado, act^.datos.DNI) then begin
+            InformarPaciente(act^.datos);
+
+            Honorarios[consultorio] := Honorarios[consultorio] + CalcularHonorario(consultorio, act^.datos.ObraSocial);
+
+            ant := act;
+            act := act^.sig;
+        end else begin
+            aux := act;
+
+            if (ant = nil) then
+                Lista := act^.sig
+            else
+                ant^.sig := act^.sig;
+            
+            act := act^.sig;
+            dispose(aux);
+        end;
+    end;
+end;
+
+procedure InicializarArreglo(var V: ArrConsult);
+
+var
+    i: longint;
+
+begin
+    for i := 1 to 12 do
+        V[i] := 0;
+end;
+
 var
     ArregloConsultorios: ArrListas;
-    i: integer;
+    i: longint;
+    Honorarios: ArrConsult;
 
 begin
     writeln(' ');
@@ -172,8 +239,12 @@ begin
     writeln(' ');
 
     InicializarConsultorios(ArregloConsultorios);
+    InicializarArreglo(Honorarios);
 
     CargarListas(ArregloConsultorios);
+
+    for i := 1 to 12 do
+        RecorrerLista(ArregloConsultorios[i], i, Honorarios);
 
     for i := 1 to 12 do begin
         writeln('Para el consultorio ', i, ' la lista es: ');

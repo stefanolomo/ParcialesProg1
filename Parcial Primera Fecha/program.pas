@@ -6,11 +6,11 @@ type
     tipoconsultorio = 1..12;
 
     registrodatos = record
-        Dni: integer;
+        Dni: longint;
         Nombre: tipocadena;
         Apellido: tipocadena;
         ObraSocial: tipoobra;
-        Afiliado: integer;
+        Afiliado: longint;
     end;
 
     ptrnodo = ^nodo;
@@ -20,6 +20,7 @@ type
     end;
 
     ArrListas = Array[tipoconsultorio] of ptrnodo;
+    ArrConsult = Array[tipoconsultorio] of longint;
     cint = set of 1..9;
 
 procedure InsertarOrdenado(var Lista: ptrnodo; datos: registrodatos);
@@ -99,7 +100,7 @@ end;
 procedure InicializarConsultorios(var ArrCon: ArrListas);
 
 var
-    i: integer;
+    i: longint;
 
 begin
     for i := 1 to 12 do begin
@@ -110,7 +111,7 @@ end;
 procedure InformarLista (Lista: ptrnodo);
 
 var
-    i: integer;
+    i: longint;
     datos: registrodatos;
 
 begin
@@ -134,10 +135,10 @@ begin
     writeln('En la lista habia/n ', i, ' elemento/s.');
 end;
 
-procedure DescomponerDigitos(num: integer; var conj: cint);
+procedure DescomponerDigitos(num: longint; var conj: cint);
 
 var
-    digito: integer;
+    digito: longint;
 
 begin
     while (num <> 0) do begin
@@ -149,7 +150,7 @@ begin
     end;
 end;
 
-function CalcularHonorario(consultorio: tipoconsultorio; ObraSocial: tipoobra):integer;
+function CalcularHonorario(consultorio: tipoconsultorio; ObraSocial: tipoobra):longint;
 
 begin
     if ((consultorio mod 2) = 0) then

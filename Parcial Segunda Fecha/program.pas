@@ -1,5 +1,8 @@
 program SegundaFecha2025;
 
+const
+    NUMJUGADORES = 2;
+
 { Se dispone de una lista con los equipos participantes del proximo mundial de clubes ordenados por pais al que pertenecen. De cada equipo se conoce el codigo de equipo, nombre, pais de origen, director tecnico, y los 30 jugadores convocados. De cada jugador se conoce su numero, valor en dolares y numero de camiseta (1 a 99).
 
 Se requiere recorrer la lista una sola vez para:
@@ -16,16 +19,16 @@ Se requiere recorrer la lista una sola vez para:
 
 type
     tipocadena = string[50];
-    tipojugadores = 1..30;
+    tipojugadores = 1..NUMJUGADORES;
     tipocamiseta = 1..99;
     jugador = record
-        numero: integer;
-        valor: integer;
+        numero: longint;
+        valor: longint;
         camiseta: tipocamiseta;
     end;
     ArrJugadores = Array[tipojugadores] of jugador;
     registroequipo = record
-        codigo: integer;
+        codigo: longint;
         nombre: tipocadena;
         pais: tipocadena;
         director: tipocadena;
@@ -33,7 +36,7 @@ type
     end;
     registropais = record
         nombre: tipocadena;
-        valor: integer;
+        valor: longint;
     end;
 
     ptrequipo = ^equipo;
@@ -48,12 +51,12 @@ type
         sig: ptrpais;
     end;
 
-    ArrCamiseta = Array[tipocamiseta] of integer;
+    ArrCamiseta = Array[tipocamiseta] of longint;
 
-function Inverso(num: integer): integer;
+function Inverso(num: longint): longint;
 
 var
-    digito, invertido: integer;
+    digito, invertido: longint;
 
 begin
     invertido := 0;
@@ -68,7 +71,7 @@ begin
     Inverso := invertido;
 end;
 
-function EsCapicua(num: integer): boolean;
+function EsCapicua(num: longint): boolean;
 
 begin
     EsCapicua := (Inverso(num) = num);
@@ -77,7 +80,7 @@ end;
 procedure InicializarArrCamiseta(var A: ArrCamiseta);
 
 var
-    i: integer;
+    i: longint;
 
 begin
     for i := 1 to 99 do
@@ -87,7 +90,7 @@ end;
 procedure Hallar2MaxEnArrCamiseta(A: ArrCamiseta; var maxIn1, maxIn2: tipocamiseta);
 
 var
-    i, max1, max2: integer;
+    i, max1, max2: longint;
 
 begin
     max1 := -1;
@@ -172,10 +175,10 @@ procedure RecorrerLista(ListaEquipos: ptrequipo; var ListaPaises: ptrpais);
 
 var
     FrecuenciaCamiseta: ArrCamiseta;
-    i: integer;
+    i: longint;
     max1, max2: tipocamiseta;
     paisActual: tipocadena;
-    valorPais, valorEquipo: integer;
+    valorPais, valorEquipo: longint;
     paisAgregar: registropais;
 
 begin
@@ -193,7 +196,7 @@ begin
         while (ListaEquipos <> nil) and (ListaEquipos^.datos.pais = paisActual) do begin
             valorEquipo := 0;
 
-            for i := 1 to 30 do begin
+            for i := 1 to NUMJUGADORES do begin
                 valorEquipo := valorEquipo + ListaEquipos^.datos.convocados[i].valor;
                 FrecuenciaCamiseta[ListaEquipos^.datos.convocados[i].camiseta] := FrecuenciaCamiseta[ListaEquipos^.datos.convocados[i].camiseta] + 1;
             end;
@@ -215,5 +218,95 @@ begin
     writeln('La primera camiseta mas usada es ', max1, '. La segunda mas usada es ', max2, '.');
 end;
 
+procedure LeerJugador(var j: jugador);
 begin
+    write('Ingrese numero de jugador: ');
+    readln(j.numero);
+    write('Ingrese valor en dolares: ');
+    readln(j.valor);
+    write('Ingrese numero de camiseta (1 a 99): ');
+    readln(j.camiseta);
+end;
+
+{ <-----------------------------------> Modulos de prueba <-----------------------------------> }
+
+procedure LeerEquipo(var e: registroequipo);
+var i: longint;
+begin
+    write('Ingrese codigo de equipo: ');
+    readln(e.codigo);
+    write('Ingrese nombre del equipo: ');
+    readln(e.nombre);
+    write('Ingrese pais de origen: ');
+    readln(e.pais);
+    write('Ingrese nombre del director tecnico: ');
+    readln(e.director);
+
+    writeln('Ingrese datos de los 30 jugadores: ');
+    for i := 1 to NUMJUGADORES do begin
+        writeln('Jugador ', i, ':');
+        LeerJugador(e.convocados[i]);
+    end;
+end;
+
+procedure CargarListaEquipos(var Lista: ptrequipo);
+var
+    e: registroequipo;
+    nuevo, act, ant: ptrequipo;
+    opcion: char;
+begin
+    Lista := nil;
+    repeat
+        LeerEquipo(e);
+
+        new(nuevo);
+        nuevo^.datos := e;
+        nuevo^.sig := nil;
+
+        // Insertar ordenado por pais para que corte de control funcione bien
+        if Lista = nil then
+            Lista := nuevo
+        else begin
+            ant := nil;
+            act := Lista;
+            while (act <> nil) and (act^.datos.pais <= e.pais) do begin
+                ant := act;
+                act := act^.sig;
+            end;
+            if ant = nil then begin
+                nuevo^.sig := Lista;
+                Lista := nuevo;
+            end else begin
+                ant^.sig := nuevo;
+                nuevo^.sig := act;
+            end;
+        end;
+
+        write('Desea ingresar otro equipo? (S/N): ');
+        readln(opcion);
+    until (opcion = 'N') or (opcion = 'n');
+end;
+
+procedure ImprimirListaPaises(Lista: ptrpais);
+begin
+    while Lista <> nil do
+    begin
+        writeln('País: ', Lista^.datos.nombre, ' - Valor total: $', Lista^.datos.valor);
+        Lista := Lista^.sig;
+    end;
+end;
+
+var
+    ListaEquipos: ptrequipo;
+    ListaPaises: ptrpais;
+begin
+    CargarListaEquipos(ListaEquipos);
+
+    RecorrerLista(ListaEquipos, ListaPaises);
+
+    ImprimirListaPaises(ListaPaises);
+
+    LiberarListaEquipo(ListaEquipos);
+
+    LiberarListaPais(ListaPaises);
 end.

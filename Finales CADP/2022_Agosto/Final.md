@@ -31,6 +31,71 @@ Sí, para acceder a un elemento dado en una estructura de datos lineal, se debe 
 
 ![](Final_20250812172042914.png)
 
+Las formulas de comunicacion ente modulos son:
 
+- Comunicacion por variables globales
+- Comunicacion por parametros
+
+En la comunicacion por variables globales, su usan variables accesibles en todos los puntos del programa para compartir datos entre modulos y el programa principal. Esto es desaconsejable ya que compromete la legibilidad y la seguridad del programa. Además, va en contra de los principios de bajo acoplamiento y alta cohesión.
+
+Por otra parte, la comunicacion por parametros se considera buena practica ya que permite que los modulos expliciten la cantidad y el tipo de datos que requieren de entrada.
 
 ![](Final_20250812172056791.png)
+
+**Tiempo de ejecucion**
+
+Del primer for:
+
+> 3 x 10 + 2 -> de la estructura
+
+> 3 x 10 -> del cuerpo del for
+
+Del segundo for:
+
+> 3 x 6 + 2 -> de la estructura
+
+> 0 -> del cuerpo
+
+La suma del programa es de 82 unidades de tiempo
+
+**Memoria estática**
+
+Para la memoria estatica, vemos las declaraciones CONST y VAR.
+
+En VAR del programa principal:
+
+_p:vector_ -> Array[1..20] of ^participante
+
+> 20 x 4
+
+_i: integer_
+
+> 1 x 4
+
+_c: categorias_ -> 1..4 ~> integer
+
+> 1 x 4
+
+_ayn: cadena30_ -> String[30]
+
+> 30 + 1
+
+La suma de memoria estatica del programa es de 119 bytes
+
+**Memoria dinámica**
+
+Nos fijamos como se crean, reservan y liberan espacios de memoria para estructuras dinamicas.
+
+En el primer for se crean 10 registros _participante_. Calculamos cuanta memoria ocupa cada registro:
+
+ape_nom -> 30 + 1
+
+categ -> 4
+
+tiempo -> 8
+
+Cada registro _participante_ ocupa 43 bytes. Si se crean 10 registros, se ocupan 430 bytes.
+
+En el segundo for se liberan 6 registros, entonces restamos 6 x 43 = 258 -> 430 - 258 = 172.
+
+De esta manera, el programa ocupa 172 bytes de memoria dinamica. 

@@ -25,6 +25,8 @@ if x > 0 then
   writeln('x es positivo');
 ```
 
+Se usa para marcar un bloque de codigo a ejecutar si se cumple una condicion o serie de condiciones
+
 If else
 
 ```
@@ -33,6 +35,8 @@ if x mod 2 = 0 then
 else
   writeln('x es impar');
 ```
+
+Se usa para marcar los bloques de codigo a ejecutar si se cumple una condicion u otra.
 
 case of
 
@@ -50,3 +54,6 @@ else
 end;
 ```
 
+Se usa para especificar que se debe hacer en cada caso del valor de una variable, en este caso, del integer _dia_.
+
+![](resolucion_20250816191105857.png)

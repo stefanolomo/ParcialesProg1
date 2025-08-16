@@ -2,6 +2,9 @@
 
 !*/
 !*.pas
+!*.pdf
+!*.jpeg
+!*.png
 !.gitignore
 !README.md
 !*.md

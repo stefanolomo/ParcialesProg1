@@ -354,6 +354,36 @@ end;
 
 ![](resolucion_20250816190647447.png)
 
+El procedure del punto 3 es:
+
+``` pascal
+Procedure Calcular(var b, a: integer);
+Begin
+    b := 10;
+    while (b > 0) do
+    begin
+        a := a + b;
+        b := b - 2;
+        c := c - b;
+    end;
+    writeln('a= ', a, ' b= ', b, ' c= ', c);
+end;
+```
+
+Para calcular el **tiempo de ejecución**:
+
+Sabemos del punto 3 que el while se ejecuta 5 veces, por lo que la estructura del while consume 5 validaciones true + 1 false = 6 UT.
+
+Ahora consideremos el cuerpo del while. Hay 6 operaciones que se realizan un total de 5 veces -> 5 * 6 = 30 UT. De esta manera el while completo consume (30 + 6) UT = 36 UT.
+
+El writeln no se considera.
+
+La asignacion de _b := 10_ al principio consume 1UT.
+
+En total el procedimiento completo consume:
+
+(36 + 1) UT = 37 UT
+
 ![](resolucion_20250816190658240.png)
 
 Las estructuras de control de seleccion vistas son: if _condicion_ then _hacer_, if _condicion_ then _hacer_ else _hacer_, case _variable_ of _casos_: _hacer_.
@@ -380,7 +410,7 @@ Se usa para marcar los bloques de codigo a ejecutar si se cumple una condicion u
 
 case of
 
-```
+``` pascal
 case dia of
   1: writeln('Lunes');
   2: writeln('Martes');

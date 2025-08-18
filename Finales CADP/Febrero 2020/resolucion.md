@@ -296,6 +296,62 @@ En el segundo writeln del programa principal se imprime basura para _a_, 0 para 
 
 ![](resolucion_20250816190621873.png)
 
+El tipo de dato arreglo es una estructura de datos del tipo estatica, homogenea y de acceso directo (por indice).
+
+a) Para buscar un elemento en un arreglo ordenado:
+
+``` pseudocode
+Funcion BuscarEnArreglo(Arreglo, dato): TipoIndice;
+
+var
+    medio, der, izq: TipoIndice;
+
+begin
+    der := DimensionLogica;
+    izq := 1;
+
+    Mientras (der >= izq)
+        medio := (der + izq) div 2;
+
+        Si (Arreglo[medio] = dato) entonces
+            Se encontro el dato;
+            Devolver medio;
+        O si no (Arreglo[medio] > dato) entonces
+            der := medio - 1;
+        O si no (Arreglo[medio] < dato) entonces
+            izq := medio + 1;
+    Informar que no se encontro el dato buscado en el arreglo
+end;
+```
+
+b) Insertar elemento en posicion de un arreglo
+
+``` pseudocode
+Procedimiento InsertarEnArreglo(Arreglo, dato, pos);
+
+var
+    i: TipoIndice;
+
+begin
+    Si (pos < 1) o (pos > DimensionLogica + 1) entonces
+        Informar 'Posición inválida';
+        Salir del procedimiento;
+
+    // Corrimiento de los elementos
+    Para i := DimensionLogica hasta pos hacer
+        Arreglo[i + 1] := Arreglo[i];
+
+    // Insertar el nuevo dato
+    Arreglo[pos] := dato;
+
+    // Actualizar la dimensión lógica
+    DimensionLogica := DimensionLogica + 1;
+
+    Informar dato insertado con exito en pos;
+end;
+```
+
+
 ![](resolucion_20250816190647447.png)
 
 ![](resolucion_20250816190658240.png)

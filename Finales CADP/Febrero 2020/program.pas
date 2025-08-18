@@ -2,6 +2,7 @@
 Program Final;
 
 
+
 // La facultad de informatica organizará el congreso WICC, en donde se expondran trabajos de investigacion. Realizar un programa que lea la informacion de cada publicacion; titulo, nombre del autor, DNI del autor, tipo de publicacion (1..12). La lectura de publicaciones finaliza al ingresar un DNI del autor con valor 0 el cual no debe procesarse. La informacion se lee ordenada por DNI del autor y un autor puede tener varias publicaciones.
 
 // Se pide escribir un programa que:
@@ -46,61 +47,67 @@ Begin
 
     If (ant = Nil) Then
         Begin
-            if (act <> nil) then begin
-                act^.cant := act^.cant + 1;
-            end else Begin
-                new(nodo);
-                nodo^.autor := pub.nombre;
-                nodo^.cant := 1;
-                nodo^.sig := nil;
+            If (act <> Nil) Then
+                Begin
+                    act^.cant := act^.cant + 1;
+                End
+            Else
+                Begin
+                    new(nodo);
+                    nodo^.autor := pub.nombre;
+                    nodo^.cant := 1;
+                    nodo^.sig := Nil;
 
-                Lista := nodo;
-            end;
+                    Lista := nodo;
+                End;
         End
     Else If (act = Nil) Then
-            Begin
-                new(nodo);
-                nodo^.autor := pub.nombre;
-                nodo^.cant := 1;
-                nodo^.sig := nil;
+             Begin
+                 new(nodo);
+                 nodo^.autor := pub.nombre;
+                 nodo^.cant := 1;
+                 nodo^.sig := Nil;
 
-                ant^.sig := nodo;
-            End
+                 ant^.sig := nodo;
+             End
     Else
         Begin
             act^.cant := act^.cant + 1;
         End;
 End;
 
-procedure InicializarArrPub (var V: ArrPub);
+Procedure InicializarArrPub (Var V: ArrPub);
 
-var
-    i: integer;
+Var
+    i:   integer;
 
-begin
-    for i := 1 to 12 do begin
-        V[i] := 0;
-    end;
-end;
+Begin
+    For i := 1 To 12 Do
+        Begin
+            V[i] := 0;
+        End;
+End;
 
-function HallarMaxEnArrPub (V: ArrPub): tipoPub;
+Function HallarMaxEnArrPub (V: ArrPub):   tipoPub;
 
-var
-    i, maxIn: tipoPub;
-    max1: integer;
+Var
+    i, maxIn:   tipoPub;
+    max1:   integer;
 
-begin
+Begin
     max1 := -1;
 
-    for i := 1 to 12 do begin
-        if (V[i] > max1) then begin
-            max1 := V[i];
-            maxIn := i;
-        end;
-    end;
+    For i := 1 To 12 Do
+        Begin
+            If (V[i] > max1) Then
+                Begin
+                    max1 := V[i];
+                    maxIn := i;
+                End;
+        End;
 
     HallarMaxEnArrPub := maxIn;
-end;
+End;
 
 Procedure LeerPublicacion(Var pub: publicacion);
 
@@ -126,51 +133,57 @@ Begin
         End;
 End;
 
-Procedure Principal(var Lista: ptrnodo);
+Procedure Principal(Var Lista: ptrnodo);
 
 Var
     pub:   publicacion;
-    ArregloPublicaciones: ArrPub;
+    ArregloPublicaciones:   ArrPub;
 
 Begin
     InicializarArrPub(ArregloPublicaciones);
     LeerPublicacion(pub);
 
-    While pub.DNI <> 0 Do Begin
+    While pub.DNI <> 0 Do
+        Begin
             InsertarAutor(Lista, pub);
             LeerPublicacion(pub);
 
-            ArregloPublicaciones[pub.tipo] := ArregloPublicaciones[pub.tipo] + 1;
+            ArregloPublicaciones[pub.tipo] := ArregloPublicaciones[pub.tipo] + 1
+            ;
         End;
 
-    writeln('El tipo de publicacion mas frecuente es el nro: ', HallarMaxEnArrPub(ArregloPublicaciones));
+    writeln('El tipo de publicacion mas frecuente es el nro: ',
+            HallarMaxEnArrPub(ArregloPublicaciones));
 End;
 
-procedure InformarListaAutores(Lista: ptrnodo);
+Procedure InformarListaAutores(Lista: ptrnodo);
 
-begin
-    while (Lista <> nil) do begin
-        writeln('Para el autor ', Lista^.autor, ', se registraron ', Lista^.cant, ' publicaciones diferentes.');
+Begin
+    While (Lista <> Nil) Do
+        Begin
+            writeln('Para el autor ', Lista^.autor, ', se registraron ', Lista^.
+                    cant, ' publicaciones diferentes.');
 
-        Lista := Lista^.sig;
-    end;
-end;
+            Lista := Lista^.sig;
+        End;
+End;
 
-procedure LiberarLista(var Lista: ptrnodo);
+Procedure LiberarLista(Var Lista: ptrnodo);
 
-var
-    aux: ptrnodo;
+Var
+    aux:   ptrnodo;
 
-begin
-    while (Lista <> nil) do begin
-        aux := Lista;
-        Lista := Lista^.sig;
-        dispose(aux);
-    end;
-end;
+Begin
+    While (Lista <> Nil) Do
+        Begin
+            aux := Lista;
+            Lista := Lista^.sig;
+            dispose(aux);
+        End;
+End;
 
-var
-    ListaAutores: ptrnodo;
+Var
+    ListaAutores:   ptrnodo;
 
 Begin
     Principal(ListaAutores);

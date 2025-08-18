@@ -185,6 +185,107 @@ End.
 
 ![](resolucion_20250816185227788.png)
 
+Para la **memoria estatica** debemos considerar las declaraciones var:
+
+```
+Var
+    ant, act, nodo:   ptrnodo;
+
+Var
+    i:   integer;
+
+Var
+    i, maxIn:   tipoPub;
+    max1:   integer;
+
+Var
+    pub:   publicacion;
+    ArregloPublicaciones:   ArrPub;
+
+Var
+    aux:   ptrnodo;
+
+Var
+    ListaAutores:   ptrnodo;
+```
+
+Usando la siguiente tabla:
+
+| Tipo de dato       | Tamaño (bytes) |
+|---------------------|----------------|
+| `char`              | 1              |
+| `boolean`           | 1              |
+| `integer`           | 4              |
+| `real`              | 8              |
+| `puntero`           | 4              |
+| `string[n]`         | n + 1          |
+| `subrango` (ej. 1..k) | 4            |
+
+---
+
+3 punteros * 4 bytes = 12 bytes
+
+---
+
+1 integer * 4 bytes = 4
+
+---
+
+2 tipoPub * 4 bytes + 1 integer * 4 bytes = 12 bytes
+
+---
+
+En el registro publicacion hay:
+
++ Nombre (String[30])-> 31 bytes
++ Titulo (") -> 31 bytes
++ DNI (Integer) -> 4 bytes
++ Tipo (tipoPub) -> 4 bytes
+
+En total 1 registro pub consume (31 + 31 + 4 + 4) bytes = 70 bytes
+
+1 publicacion * 70 bytes + 1 ArrPub * (12 integer * 4 bytes) bytes = 118 bytes
+
+---
+
+1 puntero * 4 bytes = 4 bytes
+
+---
+
+1 puntero * 4 bytes = 4
+
+---
+
+Efectuando la suma de todas las declaraciones Var obtenemos:
+
+Memoria Estatica = (4 + 4 + 118 + 12 + 4 + 12) bytes = 154 bytes
+
+Para la **memoria dinámica** nos fijamos en que lugares del programa se crean los nodos de las listas. Eso sucede al agregar nodos a la lista de autores. Calculamos cuanta memoria ocupa un registro nodo:
+
+``` pascal
+ptrnodo =   ^nodo;
+    nodo =   Record
+        autor:   cadena30;
+        cant:   integer;
+        sig:   ptrnodo;
+    End;
+```
+
+El registro nodo tiene:
++ autor (String[30]) -> (30 + 1) bytes = 31 bytes
++ cant (Integer) -> 4 bytes
++ sig (Puntero) -> 4 bytes
+
+Entonces, cada registro nodo consume:
+
+(31 + 4 + 4) bytes = 39 bytes
+
+La cantidad de registros nodo, asi como la memoria dinámica va a ser una funcion de la cantidad de autores unicos que haya, digamos, n:
+
+Memoria Estática = 39 bytes * n autores
+
+Tambien es necesario aclarar que el programa finaliza con una memoria estatica de 0 bytes ya que la lista de autores es liberada al final de la ejecucion.
+
 ![](resolucion_20250816185250227.png)
 
 En el primer writeln _writeln('a= ', a, 'b= ', b, 'c= ', c);_ se imprime basura para la variable _a_ ya que no se le fue asignado ningun valor, 80 para _b_ y 30 para _c_.

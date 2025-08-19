@@ -258,7 +258,44 @@ En total 1 registro pub consume (31 + 31 + 4 + 4) bytes = 70 bytes
 
 Efectuando la suma de todas las declaraciones Var obtenemos:
 
-Memoria Estatica = (4 + 4 + 118 + 12 + 4 + 12) bytes = 154 bytes
+(4 + 4 + 118 + 12 + 4 + 12) bytes = 154 bytes
+
+A este valor le debemos sumar la cantidad de bytes que ocupan los parametros de cada funcion y procedimiento:
+
+InsertarAutor(var Lista: ptrnodo; pub: publicacion)
+Lista: var -> puntero = 4
+pub: valor -> registro = 70 (31+31+4+4)
+Total = 74
+
+InicializarArrPub(var V: ArrPub)
+V: var -> puntero = 4
+Total = 4
+
+HallarMaxEnArrPub(V: ArrPub)
+V: valor -> arreglo 12*4 = 48
+Total = 48
+
+LeerPublicacion(var pub: publicacion)
+pub: var -> puntero = 4
+Total = 4
+
+Principal(var Lista: ptrnodo)
+Lista: var -> puntero = 4
+Total = 4
+
+InformarListaAutores(Lista: ptrnodo)
+Lista: valor -> puntero = 4
+Total = 4
+
+LiberarLista(var Lista: ptrnodo)
+Lista: var -> puntero = 4
+Total = 4
+
+> 74 + 4 + 48 + 4 + 4 + 4 + 4; = 142 bytes
+
+De esta manera, la memoria estatica es:
+
+> (142 + 154) bytes = 296 bytes
 
 Para la **memoria dinámica** nos fijamos en que lugares del programa se crean los nodos de las listas. Eso sucede al agregar nodos a la lista de autores. Calculamos cuanta memoria ocupa un registro nodo:
 
